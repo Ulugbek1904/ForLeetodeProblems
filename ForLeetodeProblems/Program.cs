@@ -96,11 +96,43 @@ namespace ForLeetodeProblems
 
             Console.WriteLine(solution.GetLucky("leetcode",1));
             Console.WriteLine((int)'i' - 96);
+
+            Console.WriteLine(solution.ReverseDegree("abc"));
         }
     }
 
     public class Solution 
    {
+        public bool HasSameDigits(string s)
+        {
+            StringBuilder newString = new StringBuilder();
+            for (int i = 0; i < s.Length - 1; i++)
+            {
+                int num = (s[i] - '0' + s[i + 1] - '0') % 10;
+                newString.Append(num);
+            }
+
+            string s2 = newString.ToString();
+
+            if (s2.Length == 2)
+            {
+                return s2[0] == s2[1];
+            }
+
+            return HasSameDigits(s2);
+        }
+
+
+
+        public int ReverseDegree(string s) //abc
+        {
+            int result = 0;
+            for(int i = 0; i < s.Length; i++)
+            {
+                result += (Math.Abs((int)s[i] - 122) + 1) * i;
+            }
+            return result;
+        }
         public int CountQuadruplets(int[] nums)
         {
             int answer = 0;
@@ -123,8 +155,6 @@ namespace ForLeetodeProblems
 
             return answer;
         }
-
-
         public int CountGoodTriplets(int[] arr, int a, int b, int c)
         {
             int answered = 0;
@@ -500,7 +530,7 @@ namespace ForLeetodeProblems
 
             return sum;
         }
-        public int MinOperations(int[] nums, int k)
+        public int MinOperations2(int[] nums, int k)
         {
              var q = new PriorityQueue<long,long>();
 
