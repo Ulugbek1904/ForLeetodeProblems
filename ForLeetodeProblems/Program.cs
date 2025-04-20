@@ -98,11 +98,86 @@ namespace ForLeetodeProblems
             Console.WriteLine((int)'i' - 96);
 
             Console.WriteLine(solution.ReverseDegree("abc"));
+
+            Console.WriteLine(solution.NumRabbits([10,10,10]));
         }
     }
 
     public class Solution 
    {
+        public int NumRabbits(int[] answers)
+        {
+            HashSet<int> uniqueAnswers = 
+                new HashSet<int>(answers);
+
+            int totalRabbits = 0;
+            foreach (int answer in uniqueAnswers)
+            {
+                int count = 0;
+                foreach (int ans in answers)
+                {
+                    if (ans == answer)
+                    {
+                        count++;
+                    }
+                }
+                totalRabbits += (count + answer) / (answer + 1) * (answer + 1); 
+            }
+
+            return totalRabbits;
+        }
+
+
+        public int CountKDifference(int[] nums, int k)
+        {
+            int answer = 0;
+            for( int i = 0; i < nums.Length; i++)
+            {
+                for (int j = i + 1; j < nums.Length; j++)
+                {
+                    if (Math.Abs(nums[i] - nums[j]) == k)
+                    {
+                        answer++;
+                    }
+                }
+            }
+
+            return answer;
+        }
+        public int CountPairs(int[] nums, int k)
+        {
+            Dictionary<int, List<int>> keyValuePairs = new Dictionary<int, List<int>>(); // key - number, value - indexes of the number
+            for(int i = 0; i < nums.Length; i++)
+            {
+                if (keyValuePairs.ContainsKey(nums[i]))
+                {
+                    keyValuePairs[nums[i]].Add(i);
+                }
+                else
+                {
+                    keyValuePairs[nums[i]] = new List<int>() { i };
+                }
+            }
+
+            int count = 0;
+            foreach (var kvp in keyValuePairs)
+            {
+                int number = kvp.Key;
+                List<int> indexes = kvp.Value;
+                for (int i = 0; i < indexes.Count; i++)
+                {
+                    for (int j = i + 1; j < indexes.Count; j++)
+                    {
+                        if ((indexes[i] * indexes[j]) % k == 0)
+                        {
+                            count++;
+                        }
+                    }
+                }
+            }
+
+            return count;
+        }
         public bool HasSameDigits(string s)
         {
             StringBuilder newString = new StringBuilder();
@@ -121,9 +196,6 @@ namespace ForLeetodeProblems
 
             return HasSameDigits(s2);
         }
-
-
-
         public int ReverseDegree(string s) //abc
         {
             int result = 0;
