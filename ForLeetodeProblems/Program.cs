@@ -105,6 +105,23 @@ namespace ForLeetodeProblems
 
     public class Solution 
    {
+        public int NumberOfArrays(int[] differences, int lower, int upper)
+        {
+            int minPrefixSum = 0;
+            int maxPrefixSum = 0;
+            int prefixSum = 0;
+            foreach(int diff in differences)
+            {
+                prefixSum += diff;
+                minPrefixSum = Math.Min(minPrefixSum, prefixSum);
+                maxPrefixSum = Math.Max(maxPrefixSum, prefixSum);
+            }
+
+            return Math.Max(upper - lower - maxPrefixSum + minPrefixSum + 1, 0);
+        }
+
+
+
         public int NumRabbits(int[] answers)
         {
             HashSet<int> uniqueAnswers = 
@@ -126,8 +143,6 @@ namespace ForLeetodeProblems
 
             return totalRabbits;
         }
-
-
         public int CountKDifference(int[] nums, int k)
         {
             int answer = 0;
