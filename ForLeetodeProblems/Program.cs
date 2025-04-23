@@ -105,6 +105,38 @@ namespace ForLeetodeProblems
 
     public class Solution 
    {
+        public int CountLargestGroup(int n)
+        {
+            var groupedNumbers = new Dictionary<int, int>();
+            for (int i = 1; i <= n; i++)
+            {
+                int sum = SumOfDigits2(i);
+                if (groupedNumbers.ContainsKey(sum))
+                {
+                    groupedNumbers[sum]++;
+                }
+                else
+                {
+                    groupedNumbers[sum] = 1;
+                }
+            }
+            int maxCount = groupedNumbers.Values.Max();
+            int groupCount = groupedNumbers.Values.Count(x => x == maxCount);
+
+            return groupCount;
+        }
+        public int SumOfDigits2(int n)
+        {
+            int sum = 0;
+            while (n > 0)
+            {
+                sum += n % 10;
+                n /= 10;
+            }
+            return sum;
+        }
+
+
         public int NumberOfArrays(int[] differences, int lower, int upper)
         {
             int minPrefixSum = 0;
@@ -119,9 +151,6 @@ namespace ForLeetodeProblems
 
             return Math.Max(upper - lower - maxPrefixSum + minPrefixSum + 1, 0);
         }
-
-
-
         public int NumRabbits(int[] answers)
         {
             HashSet<int> uniqueAnswers = 
