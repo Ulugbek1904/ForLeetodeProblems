@@ -100,11 +100,39 @@ namespace ForLeetodeProblems
             Console.WriteLine(solution.ReverseDegree("abc"));
 
             Console.WriteLine(solution.NumRabbits([10,10,10]));
+
+            Console.WriteLine(solution.GroupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
         }
     }
 
     public class Solution 
    {
+        public IList<IList<string>> GroupAnagrams(string[] strs)
+        {
+            IList<IList<string>> result = new List<IList<string>>();
+            Dictionary<string, List<string>> groupedAnagrams = new Dictionary<string, List<string>>();
+            foreach (string str in strs)
+            {
+                char[] chars = str.ToCharArray();
+                Array.Sort(chars);
+                string sortedStr = new string(chars);
+                if (groupedAnagrams.ContainsKey(sortedStr))
+                {
+                    groupedAnagrams[sortedStr].Add(str);
+                }
+                else
+                {
+                    groupedAnagrams[sortedStr] = new List<string>() { str };
+                }
+            }
+            foreach (var kvp in groupedAnagrams)
+            {
+                result.Add(kvp.Value);
+            }
+            return result;
+        }
+
+
         public int CountLargestGroup(int n)
         {
             var groupedNumbers = new Dictionary<int, int>();
@@ -135,8 +163,6 @@ namespace ForLeetodeProblems
             }
             return sum;
         }
-
-
         public int NumberOfArrays(int[] differences, int lower, int upper)
         {
             int minPrefixSum = 0;
