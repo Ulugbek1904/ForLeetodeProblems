@@ -102,11 +102,94 @@ namespace ForLeetodeProblems
             Console.WriteLine(solution.NumRabbits([10,10,10]));
 
             Console.WriteLine(solution.GroupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
+
+            Console.WriteLine("asnwer: ");
+            Console.WriteLine(solution.CountCompleteSubarrays([1, 3, 1, 2, 2]));
         }
     }
 
     public class Solution 
    {
+        public bool ContainsNearbyDuplicate(int[] nums, int k)
+        {
+            bool ans = false;
+            int right = 0;
+            for(int i = 0; i < nums.Length; i++)
+            {
+                while (right < nums.Length && right - i <= k)
+                {
+                    if (nums[i] == nums[right] && i != right)
+                    {
+                        ans = true;
+                        break;
+                    }
+                    right++;
+                }
+            }
+
+            return ans;
+        }
+
+        public int LengthOfLongestSubstring(string s)
+        {
+            int maxLenght = 0;
+            var charSet = new HashSet<char>();
+            int left = 0, right = 0;
+            while (right < s.Length)
+            {
+                if (!charSet.Contains(s[right]))
+                {
+                    charSet.Add(s[right]);
+                    maxLenght = Math.Max(maxLenght, right - left + 1);
+                    right++;
+                }
+                else
+                {
+                    charSet.Remove(s[left]);
+                    left++;
+                }
+            }
+
+            return maxLenght;
+        }
+        public int CountCompleteSubarrays(int[] nums)
+        {
+            int result = 0;
+            int n = nums.Length;
+            HashSet<int> uniqueNumbers = new HashSet<int>(nums);
+            int uniqueCount = uniqueNumbers.Count;
+            Dictionary<int, int> countMap = new Dictionary<int, int>();
+            int right = 0;
+            for (int left = 0; left < n; left++)
+            {
+                if(left > 0)
+                {
+                    countMap[nums[left - 1]]--;
+                    if (countMap[nums[left - 1]] == 0)
+                    {
+                        countMap.Remove(nums[left - 1]);
+                    }
+                }
+
+                while (right < n && countMap.Count < uniqueCount)
+                {
+                    if (right < n)
+                    {
+                        if (!countMap.ContainsKey(nums[right]))
+                        {
+                            countMap[nums[right]] = 0;
+                        }
+                        countMap[nums[right]]++;
+                    }
+                    right++;
+                }
+                if (countMap.Count == uniqueCount)
+                {
+                    result += n - right + 1;
+                }
+            }
+            return result;
+        }
         public IList<IList<string>> GroupAnagrams(string[] strs)
         {
             IList<IList<string>> result = new List<IList<string>>();
@@ -131,8 +214,6 @@ namespace ForLeetodeProblems
             }
             return result;
         }
-
-
         public int CountLargestGroup(int n)
         {
             var groupedNumbers = new Dictionary<int, int>();
