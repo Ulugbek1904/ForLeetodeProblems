@@ -105,11 +105,123 @@ namespace ForLeetodeProblems
 
             Console.WriteLine("asnwer: ");
             Console.WriteLine(solution.CountCompleteSubarrays([1, 3, 1, 2, 2]));
+
+            Console.WriteLine(solution.CountInterestingSubarrays([3, 1, 9, 6], 3, 0));
+
+            Console.WriteLine(solution.CountSubarrays([3, 1, 5, 3, 4, 5], 1,3));
         }
     }
 
     public class Solution 
-   {
+    {
+        public long CountSubarrays(int[] nums, int minK, int maxK) 
+        {
+            long res = 0;   
+            int n = nums.Length;
+            int minIndex = -1, maxIndex = -1, invalidIndex = -1;
+            for(int i = 0; i < n; i++)
+            {
+                if (nums[i] < minK || nums[i] > maxK)
+                {
+                    invalidIndex = i;
+                }
+                if (nums[i] == minK)
+                {
+                    minIndex = i;
+                }
+                if (nums[i] == maxK)
+                {
+                    maxIndex = i;
+                }
+                res += Math.Max(0, Math.Min(minIndex, maxIndex) - invalidIndex);
+            }
+
+            return res;
+        }
+
+        public string DestCity(IList<IList<string>> paths)
+        {
+            string result = "";
+            HashSet<string> startCities = new HashSet<string>();
+            foreach (var path in paths)
+            {
+                startCities.Add(path[0]);
+            }
+            foreach (var path in paths)
+            {
+                if (!startCities.Contains(path[1]))
+                {
+                    result = path[1];
+                    break;
+                }
+            }
+
+            return result;
+        }
+        public string SortString(string s)
+        {
+            var charCount = new Dictionary<char, int>();
+            foreach (char c in s)
+            {
+                if (charCount.ContainsKey(c))
+                {
+                    charCount[c]++;
+                }
+                else
+                {
+                    charCount[c] = 1;
+                }
+            }
+            var sortedChars = charCount.Keys.ToList();
+            sortedChars.Sort();
+            StringBuilder result = new StringBuilder();
+            foreach (char c in sortedChars)
+            {
+                for (int i = 0; i < charCount[c]; i++)
+                {
+                    result.Append(c);
+                }
+            }
+            return result.ToString();
+        }
+        public int CountInterestingSubarrays(List<int> nums, int modulo, int k)
+        {
+            int n = nums.Count;
+
+            for (int i = 0; i < n; i++)
+            {
+                nums[i] = (nums[i] % modulo == k) ? 1 : 0;
+            }
+
+            Dictionary<int, int> count = new Dictionary<int, int>();
+            count[0] = 1; 
+
+            int result = 0;
+            int prefix = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                prefix = (prefix + nums[i]) % modulo;
+
+                int target = (prefix - k + modulo) % modulo;
+
+                if (count.ContainsKey(target))
+                {
+                    result += count[target];
+                }
+
+                if (count.ContainsKey(prefix))
+                {
+                    count[prefix]++;
+                }
+                else
+                {
+                    count[prefix] = 1;
+                }
+            }
+
+            return result;
+        }
         public bool ContainsNearbyDuplicate(int[] nums, int k)
         {
             bool ans = false;
