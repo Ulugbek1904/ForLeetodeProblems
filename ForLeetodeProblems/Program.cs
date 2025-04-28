@@ -109,11 +109,190 @@ namespace ForLeetodeProblems
             Console.WriteLine(solution.CountInterestingSubarrays([3, 1, 9, 6], 3, 0));
 
             Console.WriteLine(solution.CountSubarrays([3, 1, 5, 3, 4, 5], 1,3));
+            Console.WriteLine(solution.SingleNonDuplicate([1, 1, 2, 2, 3]));
+            Console.WriteLine(solution.NumSubarraysWithSum([0,0,0,0,0], 0));
         }
     }
 
     public class Solution 
     {
+        public int NumSubarraysWithSum(int[] nums, int goal)
+        {
+            int answer = 0, currentSum = 0;
+            int n = nums.Length;
+            int left = 0, right = 0;
+            while (right < n)
+            {
+                currentSum += nums[right];
+                while (currentSum > goal)
+                {
+                    currentSum -= nums[left];
+                    left++;
+                }
+                if (currentSum == goal)
+                {
+                    answer++;
+                    int tempLeft = left;
+                    while (tempLeft < n && nums[tempLeft] == 0 && tempLeft < right)
+                    {
+                        answer++;
+                        tempLeft++;
+                    }
+                }
+                right++;
+            }
+            return answer;
+        }
+
+        public int NumSubarrayProductLessThanK(int[] nums, int k)
+        {
+            int n = nums.Length;
+            int answer = 0, currentProduct = 1;
+            int left = 0, right = 0;
+            while (right < n)
+            {
+                currentProduct *= nums[right];
+                while (currentProduct >= k && left <= right)
+                {
+                    currentProduct /= nums[left];
+                    left++;
+                }
+                answer += right - left + 1;
+                right++;
+            }
+
+            return answer;
+        }
+
+        public long CountSubarrays(int[] nums, long k)
+        {
+            long crtSum = 0, answer = 0;
+            int n = nums.Length;
+            int left = 0, right = 0;
+            
+            while(right < n)
+            {
+                crtSum += nums[right];
+                while((right-left+1)*crtSum >= k)
+                {
+                    crtSum -= nums[left];
+                    left++;
+                }
+                answer += right - left + 1;
+                right++;                
+            }
+
+            return answer;
+        }
+
+
+        public int SingleNonDuplicate(int[] nums)
+        {
+            int answer = 0;
+            int n = nums.Length;
+            int start = 0, end = n - 1;
+            if (n == 1) return nums[0];
+            while (start < end)
+            {
+                int mid = start + (end - start) / 2;
+                if (nums[mid] != nums[mid + 1] && nums[mid] != nums[mid - 1])
+                {
+                    answer = nums[mid];
+                    break;
+                }
+                if (nums[mid] == nums[mid - 1])
+                {
+                    int leftCount = mid - start + 1;
+                    if (leftCount % 2 == 1)
+                    {
+                        end = mid - 2;
+                    }
+                    else
+                    {
+                        start = mid + 1;
+                    }
+                }
+                else
+                {
+                    int rightCount = end - mid + 1;
+                    if (rightCount % 2 == 1)
+                    {
+                        start = mid + 2;
+                    }
+                    else
+                    {
+                        end = mid - 1;
+                    }
+                }
+            }
+            if (start == end)
+            {
+                answer = nums[start];
+            }
+            return answer;
+        }
+        public int NumIdenticalPairs(int[] nums)
+        {
+            int answer = 0;
+            var same = new Dictionary<int, int>();
+            foreach (var num in nums)
+            {
+                if (same.ContainsKey(num))
+                {
+                    same[num]++;
+                }
+                else
+                {
+                    same[num] = 1;
+                }
+            }
+            foreach (var num in same)
+            {
+                answer += (num.Value * (num.Value - 1)) / 2;
+            }
+
+            return answer;
+        }
+        public int NumberOfSubarrays(int[] nums, int k)
+        {
+            int res = 0;
+            int n = nums.Length;
+            int left = 0, right = 0;
+            int count = 0;
+            while (right < n)
+            {
+                if (nums[right] % 2 == 1)
+                {
+                    count++;
+                }
+                while (count > k)
+                {
+                    if (nums[left] % 2 == 1)
+                    {
+                        count--;
+                    }
+                    left++;
+                }
+                if (count == k)
+                {
+                    int tempLeft = left;
+                    while (tempLeft < n && nums[tempLeft] % 2 == 0)
+                    {
+                        tempLeft++;
+                    }
+                    int tempRight = right;
+                    while (tempRight >= left && nums[tempRight] % 2 == 0)
+                    {
+                        tempRight--;
+                    }
+                    res += (tempLeft - left + 1) * (right - tempRight + 1);
+                }
+                right++;
+            }
+
+            return res;
+        }
+
         public long CountSubarrays(int[] nums, int minK, int maxK) 
         {
             long res = 0;   
@@ -138,7 +317,6 @@ namespace ForLeetodeProblems
 
             return res;
         }
-
         public string DestCity(IList<IList<string>> paths)
         {
             string result = "";
