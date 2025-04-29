@@ -116,6 +116,60 @@ namespace ForLeetodeProblems
 
     public class Solution 
     {
+        public bool ArrayStringsAreEqual(string[] word1, string[] word2)
+        {
+            string s1 = string.Join("", word1);
+            string s2 = string.Join("", word2);
+            return s1 == s2;
+        }
+
+        public int MaxDepth(string s)
+        {
+            int count = 0;
+            int maxDepth = 0;
+            foreach (char c in s)
+            {
+                if (c == '(')
+                {
+                    count++;
+                    maxDepth = Math.Max(maxDepth, count);
+                }
+                else if (c == ')')
+                {
+                    count--;
+                }
+            }
+            return maxDepth;
+        }
+
+        public long CountSubarrays(int[] nums, int k)
+        {
+            long result = 0;
+            int n = nums.Length;
+            int left = 0, right = 0;
+            int maxElementsCount = 0;
+            int maxElement = nums.Max();
+            while (right < n)
+            {
+                if (nums[right] == maxElement)
+                {
+                    maxElementsCount++;
+                }
+                while (maxElementsCount == k)
+                {
+                    if (nums[left] == maxElement)
+                    {
+                        maxElementsCount--;
+                    }
+                    left++;
+                }
+
+                result += left; 
+            }
+
+            return result;
+        }
+
         public int NumSubarraysWithSum(int[] nums, int goal)
         {
             int answer = 0, currentSum = 0;
