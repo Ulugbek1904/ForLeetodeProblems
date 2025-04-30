@@ -116,6 +116,124 @@ namespace ForLeetodeProblems
 
     public class Solution 
     {
+        public int PrefixCount(string[] words, string pref)
+        {
+            int numberOfWords = 0;
+            int length = pref.Length;
+            foreach (string word in words)
+            {
+                if (word.Length >= length && word.Substring(0, length) == pref)
+                {
+                    numberOfWords++;
+                }
+            }
+
+            return numberOfWords;
+        }
+
+        public string FirstPalindrome(string[] words)
+        {
+            string firstPalindrome = "";
+            foreach (string word in words)
+            {
+                if (IsPalindrome(word))
+                {
+                    firstPalindrome = word;
+                    break;
+                }
+            }
+
+            return firstPalindrome;
+        }
+        public bool IsPalindrome(string word)
+        {
+            int left = 0, right = word.Length - 1;
+            while (left < right)
+            {
+                if (word[left] != word[right])
+                {
+                    return false;
+                }
+                left++;
+                right--;
+            }
+            return true;
+        }
+
+        public int CountPoints(string rings)
+        {
+            var ringsMap = new Dictionary<int, HashSet<char>>();
+
+            for (int i = 0; i < rings.Length; i += 2)
+            {
+                char color = rings[i];
+                int position = rings[i + 1] - '0';
+                if (!ringsMap.ContainsKey(position))
+                {
+                    ringsMap[position] = new HashSet<char>();
+                }
+                ringsMap[position].Add(color);
+            }
+            int result = 0;
+            foreach (var kvp in ringsMap)
+            {
+                if (kvp.Value.Count == 3)
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
+
+        public int MostWordsFound(string[] sentences)
+        {
+            int maxWords = 0;
+            foreach (string sentence in sentences)
+            {
+                int wordCount = sentence.Split(' ').Length;
+                maxWords = Math.Max(maxWords, wordCount);
+            }
+
+            return maxWords;
+        }
+
+        public int CountWords(string[] words1, string[] words2)
+        {
+            int count = 0;
+            var wordCount1 = new Dictionary<string, int>();
+            var wordCount2 = new Dictionary<string, int>();
+            foreach (string word in words1)
+            {
+                if (wordCount1.ContainsKey(word))
+                {
+                    wordCount1[word]++;
+                }
+                else
+                {
+                    wordCount1[word] = 1;
+                }
+            }
+            foreach (string word in words2)
+            {
+                if (wordCount2.ContainsKey(word))
+                {
+                    wordCount2[word]++;
+                }
+                else
+                {
+                    wordCount2[word] = 1;
+                }
+            }
+            foreach (var kvp in wordCount1)
+            {
+                if (kvp.Value == 1 && wordCount2.ContainsKey(kvp.Key) && wordCount2[kvp.Key] == 1)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
         public bool ArrayStringsAreEqual(string[] word1, string[] word2)
         {
             string s1 = string.Join("", word1);
