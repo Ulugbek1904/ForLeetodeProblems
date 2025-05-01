@@ -116,6 +116,97 @@ namespace ForLeetodeProblems
 
     public class Solution 
     {
+        public int CountGoodSubstrings(string s)
+        {
+            int count = 0;
+            var charSet = new HashSet<char>();
+            for (int i = 0; i < s.Length - 2; i++)
+            {
+                charSet.Clear();
+                charSet.Add(s[i]);
+                charSet.Add(s[i + 1]);
+                charSet.Add(s[i + 2]);
+                if (charSet.Count == 3)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        public double FindMaxAverage(int[] nums, int k)
+        {
+            int n = nums.Length;
+            double maxAverage = double.MinValue;
+            double currentSum = 0;
+            int left = 0, right = 0;
+            while (right < n)
+            {
+                currentSum += nums[right];
+                if (right - left + 1 == k)
+                {
+                    maxAverage = Math.Max(maxAverage, currentSum / k);
+                    currentSum -= nums[left];
+                    left++;
+                }
+                right++;
+            }
+            return maxAverage;
+        }
+
+        public int FindLHS(int[] nums)
+        {
+            int maxLength = 0;
+            nums = nums.OrderBy(x => x).ToArray();
+            var numCount = new Dictionary<int, int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (numCount.ContainsKey(nums[i]))
+                {
+                    numCount[nums[i]]++;
+                    if (numCount.ContainsKey(nums[i] + 1))
+                    {
+                        int length = numCount[nums[i]] + numCount[nums[i] + 1];
+                        if (length > maxLength)
+                        {
+                            maxLength = length;
+                        }
+                    }
+                    if (numCount.ContainsKey(nums[i] - 1))
+                    {
+                        int length = numCount[nums[i]] + numCount[nums[i] - 1];
+                        if (length > maxLength)
+                        {
+                            maxLength = length;
+                        }
+                    }
+                }
+                else
+                {
+                    numCount[nums[i]] = 1;
+                    if (numCount.ContainsKey(nums[i] + 1))
+                    {
+                        int length = numCount[nums[i]] + numCount[nums[i] + 1];
+                        if (length > maxLength)
+                        {
+                            maxLength = length;
+                        }
+                    }
+                    if (numCount.ContainsKey(nums[i] - 1))
+                    {
+                        int length = numCount[nums[i]] + numCount[nums[i] - 1];
+                        if (length > maxLength)
+                        {
+                            maxLength = length;
+                        }
+                    }
+                }
+            }
+
+            return maxLength;
+        }
+
         public int PrefixCount(string[] words, string pref)
         {
             int numberOfWords = 0;
