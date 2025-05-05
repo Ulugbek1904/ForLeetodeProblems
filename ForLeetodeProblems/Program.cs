@@ -94,28 +94,93 @@ namespace ForLeetodeProblems
 
             //Console.WriteLine(solution.NumberOfAlternatingGroups([0,0,0,1],3));
 
-            Console.WriteLine(solution.GetLucky("leetcode",1));
-            Console.WriteLine((int)'i' - 96);
+            //Console.WriteLine(solution.GetLucky("leetcode",1));
+            //Console.WriteLine((int)'i' - 96);
 
-            Console.WriteLine(solution.ReverseDegree("abc"));
+            //Console.WriteLine(solution.ReverseDegree("abc"));
 
-            Console.WriteLine(solution.NumRabbits([10,10,10]));
+            //Console.WriteLine(solution.NumRabbits([10,10,10]));
 
-            Console.WriteLine(solution.GroupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
+            //Console.WriteLine(solution.GroupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
 
-            Console.WriteLine("asnwer: ");
-            Console.WriteLine(solution.CountCompleteSubarrays([1, 3, 1, 2, 2]));
+            //Console.WriteLine("asnwer: ");
+            //Console.WriteLine(solution.CountCompleteSubarrays([1, 3, 1, 2, 2]));
 
-            Console.WriteLine(solution.CountInterestingSubarrays([3, 1, 9, 6], 3, 0));
+            //Console.WriteLine(solution.CountInterestingSubarrays([3, 1, 9, 6], 3, 0));
 
-            Console.WriteLine(solution.CountSubarrays([3, 1, 5, 3, 4, 5], 1,3));
-            Console.WriteLine(solution.SingleNonDuplicate([1, 1, 2, 2, 3]));
-            Console.WriteLine(solution.NumSubarraysWithSum([0,0,0,0,0], 0));
+            //Console.WriteLine(solution.CountSubarrays([3, 1, 5, 3, 4, 5], 1,3));
+            //Console.WriteLine(solution.SingleNonDuplicate([1, 1, 2, 2, 3]));
+            //Console.WriteLine(solution.NumSubarraysWithSum([0,0,0,0,0], 0));
+            Console.WriteLine(solution.DivisorSubstrings(430043, 2));
         }
     }
 
     public class Solution 
     {
+        public int MinimumRecolors(string blocks, int k)
+        {
+            int blackCount = 0, ans = int.MaxValue;
+
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                if (i - k >= 0 && blocks[i - k] == 'B') blackCount--;
+                if (blocks[i] == 'B') blackCount++;
+                ans = Math.Min(ans, k - blackCount);
+            }
+
+            return ans;
+        }
+
+        public int DivisorSubstrings(int num, int k)
+        {
+            int countOfBeauty = 0;
+            string number = num.ToString();
+            int n = number.Length;
+            int start = 0;
+            while(n >= k)
+            {
+                int divisor = int.Parse(number.Substring(start, k));
+                if(divisor == 0)
+                {
+                    start++;
+                    n = number.Substring(start).Length;
+                    continue;
+                }
+                else if (num % divisor == 0 ) {
+                    countOfBeauty++;
+                }
+                start++;
+                n = number.Substring(start).Length;
+            }
+
+            return countOfBeauty;
+        }
+        public int ArrayPairSum(int[] nums)
+        {
+            int result = 0;
+            Array.Sort(nums);
+            for(int i = 0; i < nums.Length; i += 2)
+            {
+                result += nums[i];
+            }
+
+            return result;
+        }
+        public void MinimumDifference(int[] nums, int k)
+        {
+            int minDiff = 0;
+            int n = nums.Length;
+            //if (n == 1) return 0;
+
+            Array.Sort(nums);
+
+            foreach(int i in nums)
+            {
+                //Console.WriteLine(i);
+            }
+
+            Console.WriteLine(nums[n-k]);
+        }
         public int CountGoodSubstrings(string s)
         {
             int count = 0;
