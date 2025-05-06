@@ -117,6 +117,98 @@ namespace ForLeetodeProblems
 
     public class Solution 
     {
+        public int NumberOfSubarrays(int[] nums, int k)
+        {
+            int res = 0;
+            int n = nums.Length;
+            int left = 0, right = 0;
+            int count = 0;
+            while (right < n)
+            {
+                if (nums[right] % 2 == 1)
+                {
+                    count++;
+                }
+                while (count > k)
+                {
+                    if (nums[left] % 2 == 1)
+                    {
+                        count--;
+                    }
+                    left++;
+                }
+                if (count == k)
+                {
+                    int tempLeft = left;
+                    while (tempLeft < n && nums[tempLeft] % 2 == 0)
+                    {
+                        tempLeft++;
+                    }
+                    res += (tempLeft - left + 1);
+                }
+                right++;
+            }
+
+            return res;
+        }
+
+        public int MinOperations(int[] nums)
+        {
+            int count = 0;
+            for (int i = 0; i < nums.Length - 2; i++)
+            {
+                if (nums[i] == 0)
+                {
+                    count++;
+                    nums[i] = FlipValue(nums[i]);
+                    nums[i + 1] = FlipValue(nums[i + 1]);
+                    nums[i + 2] = FlipValue(nums[i + 2]);
+                }
+            }
+            if (nums[nums.Length - 2] == 0 || nums[nums.Length - 1] == 0) return -1;
+            return count;
+        }
+
+        private int FlipValue(int val)
+        {
+            return val == 1 ? 0 : 1;
+        }
+
+        public int NumberOfSubstrings(string s)
+        {
+            int count = 0;
+            int left = 0;
+            Dictionary<char, int> charCount = new() {
+            { 'a', 0 }, { 'b', 0 }, { 'c', 0 }
+        };
+
+            for (int right = 0; right < s.Length; right++)
+            {
+                charCount[s[right]]++;
+
+                while (charCount['a'] > 0 && charCount['b'] > 0 && charCount['c'] > 0)
+                {
+                    count += s.Length - right;
+                    charCount[s[left]]--;
+                    left++;
+                }
+            }
+
+            return count;
+        }
+
+        public int[] BuildArray(int[] nums)
+        {
+            int n = nums.Length;
+            int[] result = new int[n];
+            for(int i = 0; i < nums.Length; i++)
+            {
+                int itemp = nums[i];
+                result[i] = nums[itemp];
+            }
+
+            return result;
+        }
         public int MinimumRecolors(string blocks, int k)
         {
             int blackCount = 0, ans = int.MaxValue;
