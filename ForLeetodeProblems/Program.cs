@@ -111,12 +111,122 @@ namespace ForLeetodeProblems
             //Console.WriteLine(solution.CountSubarrays([3, 1, 5, 3, 4, 5], 1,3));
             //Console.WriteLine(solution.SingleNonDuplicate([1, 1, 2, 2, 3]));
             //Console.WriteLine(solution.NumSubarraysWithSum([0,0,0,0,0], 0));
-            Console.WriteLine(solution.DivisorSubstrings(430043, 2));
+            //Console.WriteLine(solution.DivisorSubstrings(430043, 2));
+            Console.WriteLine(solution.RemoveOuterParentheses("(()())(())(()(()))"));
         }
     }
 
     public class Solution 
     {
+
+        public int MinPartitions(string n)
+        {
+            int maxDigit = 0;
+            foreach (char c in n)
+            {
+                int digit = c - '0';
+                if (digit > maxDigit)
+                {
+                    maxDigit = digit;
+                }
+            }
+
+            return maxDigit;
+        }
+
+        public int SumOddLengthSubarrays(int[] arr)
+        {
+            int result = 0, n = arr.Length;
+
+            for (int left = 0; left < n; left++)
+            {
+                for (int right = left; right < n; right++)
+                {
+                    if ((right - left + 1) % 2 == 1) 
+                    {
+                        int currentSum = 0;
+                        for (int i = left; i <= right; i++)
+                        {
+                            currentSum += arr[i];
+                        }
+
+                        result += currentSum;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public string TruncateSentence(string s, int k)
+        {
+            var words = s.Split(' ');
+
+            string result = string.Join(' ', words.Take(k));
+
+            return result;
+        }
+
+        public string RemoveOuterParentheses(string s)
+        {
+            StringBuilder result = new();
+            int index = 0;
+            foreach (char x in s)
+            {
+                if (x == '(' && index++ > 0)
+                    result.Append(x);
+                else if (x == ')' && index-- > 1)
+                    result.Append(x);
+            }
+            return result.ToString();
+        }
+
+
+        public int[] MinOperations(string boxes)
+        {
+            int n = boxes.Length;
+            int[] result = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                int count = 0;
+                for (int j = 0; j < n; j++)
+                {
+                    if (boxes[j] == '1')
+                    {
+                        count += Math.Abs(i - j);
+                    }
+                }
+                result[i] = count;
+            }
+
+            return result;
+        }
+
+        public int[][] DivideArray(int[] nums, int k)
+        {
+            List<int[]> result = new List<int[]>();
+            Array.Sort(nums);
+
+            int n = nums.Length;
+            int left = 0;
+            while (left < n)
+            {
+                int a = nums[left];
+                int b = nums[left + 1];
+                int c = nums[left + 2];
+
+                if (c - a > k)
+                {
+                    return new int[0][];
+                }
+                else
+                {
+                    result.Add(new int[] { a, b, c });
+                    left += 3;
+                }
+            }
+            return result.ToArray();
+        }
         public int NumberOfSubarrays(int[] nums, int k)
         {
             int res = 0;
@@ -672,45 +782,6 @@ namespace ForLeetodeProblems
             }
 
             return answer;
-        }
-        public int NumberOfSubarrays(int[] nums, int k)
-        {
-            int res = 0;
-            int n = nums.Length;
-            int left = 0, right = 0;
-            int count = 0;
-            while (right < n)
-            {
-                if (nums[right] % 2 == 1)
-                {
-                    count++;
-                }
-                while (count > k)
-                {
-                    if (nums[left] % 2 == 1)
-                    {
-                        count--;
-                    }
-                    left++;
-                }
-                if (count == k)
-                {
-                    int tempLeft = left;
-                    while (tempLeft < n && nums[tempLeft] % 2 == 0)
-                    {
-                        tempLeft++;
-                    }
-                    int tempRight = right;
-                    while (tempRight >= left && nums[tempRight] % 2 == 0)
-                    {
-                        tempRight--;
-                    }
-                    res += (tempLeft - left + 1) * (right - tempRight + 1);
-                }
-                right++;
-            }
-
-            return res;
         }
 
         public long CountSubarrays(int[] nums, int minK, int maxK) 
