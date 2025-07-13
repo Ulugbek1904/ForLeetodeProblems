@@ -118,6 +118,30 @@ namespace ForLeetodeProblems
 
     public class Solution 
     {
+        public int MatchPlayersAndTrainers(int[] players, int[] trainers)
+        {
+            var sortedPlayers = players.OrderBy(x => x).ToList();
+            var sortedTrainers = trainers.OrderBy(x => x).ToList();
+
+            int count = 0;
+            int playerIndex = 0, trainerIndex = 0;
+            while (playerIndex < sortedPlayers.Count && trainerIndex < sortedTrainers.Count)
+            {
+                if (sortedPlayers[playerIndex] <= sortedTrainers[trainerIndex])
+                {
+                    count++;
+                    playerIndex++;
+                    trainerIndex++;
+                }
+                else
+                {
+                    trainerIndex++;
+                }
+            }
+
+            return count;
+        }
+
 
         public int MinPartitions(string n)
         {
