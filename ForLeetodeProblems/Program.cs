@@ -112,12 +112,33 @@ namespace ForLeetodeProblems
             //Console.WriteLine(solution.SingleNonDuplicate([1, 1, 2, 2, 3]));
             //Console.WriteLine(solution.NumSubarraysWithSum([0,0,0,0,0], 0));
             //Console.WriteLine(solution.DivisorSubstrings(430043, 2));
-            Console.WriteLine(solution.RemoveOuterParentheses("(()())(())(()(()))"));
         }
     }
-
+    public class ListNode
+    {
+        public int val;
+        public ListNode next;
+        public ListNode(int val = 0, ListNode next = null)
+        {
+            this.val = val;
+            this.next = next;
+        }
+    }
     public class Solution 
     {
+        public int GetDecimalValue(ListNode head)
+        {
+            int result = 0;
+            while (head != null)
+            {
+                result = (result << 1) | head.val; 
+                head = head.next;
+            }
+
+            return result;
+        }
+
+
         public int MatchPlayersAndTrainers(int[] players, int[] trainers)
         {
             var sortedPlayers = players.OrderBy(x => x).ToList();
@@ -141,8 +162,6 @@ namespace ForLeetodeProblems
 
             return count;
         }
-
-
         public int MinPartitions(string n)
         {
             int maxDigit = 0;
