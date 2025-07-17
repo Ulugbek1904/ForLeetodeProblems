@@ -126,6 +126,23 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public string RestoreString(string s, int[] indices)
+        {
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < indices.Length; i++)
+            {
+                sb.Append(s[i]);
+            }
+            char[] result = new char[s.Length];
+            for (int i = 0; i < indices.Length; i++)
+            {
+                result[indices[i]] = sb[i];
+            }
+
+            return new string(result);
+
+        }
+
         public int GetDecimalValue(ListNode head)
         {
             int result = 0;
@@ -137,8 +154,6 @@ namespace ForLeetodeProblems
 
             return result;
         }
-
-
         public int MatchPlayersAndTrainers(int[] players, int[] trainers)
         {
             var sortedPlayers = players.OrderBy(x => x).ToList();
