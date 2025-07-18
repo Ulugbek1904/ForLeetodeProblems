@@ -126,6 +126,24 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public string[] DivideString(string s, int k, char fill)
+        {
+              int count = s.Length / k + (s.Length % k == 0 ? 0 : 1);
+            string[] result = new string[count];
+            for (int i = 0; i < count; i++)
+            {
+                if (i * k + k <= s.Length)
+                {
+                    result[i] = s.Substring(i * k, k);
+                }
+                else
+                {
+                    result[i] = s.Substring(i * k) + new string(fill, i * k + k - s.Length);
+                }
+            }
+
+            return result;
+        }
         public string RestoreString(string s, int[] indices)
         {
             StringBuilder sb = new StringBuilder();
