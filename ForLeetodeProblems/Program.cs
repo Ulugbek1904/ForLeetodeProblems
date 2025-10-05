@@ -112,8 +112,42 @@ namespace ForLeetodeProblems
             //Console.WriteLine(solution.SingleNonDuplicate([1, 1, 2, 2, 3]));
             //Console.WriteLine(solution.NumSubarraysWithSum([0,0,0,0,0], 0));
             //Console.WriteLine(solution.DivisorSubstrings(430043, 2));
+            //string a = "abc";
+            //string b = new string("abc".ToCharArray());
+            //string c = string.Intern(b);
+            //string d = new string("abc");
+
+            //Console.WriteLine(object.ReferenceEquals(a, b));
+            //Console.WriteLine(object.ReferenceEquals(a, c));
+            //Console.WriteLine(a.Equals(b));
+            //Console.WriteLine(a.Equals(b));
+            //Console.WriteLine(b.Equals(c));
+            //Console.WriteLine(a.GetHashCode() == b.GetHashCode());
+
+            //Console.WriteLine(object.ReferenceEquals(a, d));
+            //Console.WriteLine(object.ReferenceEquals(d, c));
+            //Console.WriteLine(a.Equals(d));
+            //Console.WriteLine(d.Equals(b));
+            //Console.WriteLine(b.Equals(d));
+            //Console.WriteLine(d.GetHashCode() == b.GetHashCode());
+
+            //string x = "test";
+            //string y = "te" + "st";
+            //Console.WriteLine(object.ReferenceEquals(x, y));
+
+            //string part1 = "te";
+            //string part2 = "st";
+            //string z = part1 + part2;
+
+            //Console.WriteLine(object.ReferenceEquals(x, z)); 
+
+
+
+
         }
     }
+
+
     public class ListNode
     {
         public int val;
@@ -126,6 +160,13 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+
+        public bool IsStrictlyPalindromic(int n)
+        {
+
+        }
+
+
         public string[] DivideString(string s, int k, char fill)
         {
               int count = s.Length / k + (s.Length % k == 0 ? 0 : 1);
