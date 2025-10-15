@@ -141,7 +141,7 @@ namespace ForLeetodeProblems
 
             //Console.WriteLine(object.ReferenceEquals(x, z)); 
 
-
+            Console.WriteLine(solution.MaxIncreasingSubarrays([-15, 19]));
 
 
         }
@@ -161,9 +161,30 @@ namespace ForLeetodeProblems
     public class Solution 
     {
 
-        public bool IsStrictlyPalindromic(int n)
+        public int MaxIncreasingSubarrays(IList<int> nums) // [2,5,7,8,9,2,3,4,3,1]
         {
+            int n = nums.Count;
+            int tempCnt = 1;
+            int preCnt = 1;
+            int ans = 0;
 
+            for (int i = 1; i <= n - 1; i++)
+            {
+                if (nums[i] > nums[i - 1])
+                {
+                    tempCnt++; // 2,5,7,8,9 => 5
+                }
+                else
+                {
+                    preCnt = tempCnt; // p = 5
+                    tempCnt = 1;
+                }
+
+                ans = Math.Max(ans, Math.Min(tempCnt, preCnt)); // 1
+                ans = Math.Max(Math.Max(preCnt, tempCnt)/ 2, ans);
+            }
+
+            return ans;
         }
 
 
