@@ -160,7 +160,65 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int MaxIncreaseKeepingSkyline(int[][] grid)
+        {
+            int count = 0;
+            int[] rowMax = new int[grid.Length];
+            int[] colMax = new int[grid[0].Length];
+            for (int i = 0; i < grid.Length; i++)
+            {
+                for (int j = 0; j < grid[0].Length; j++)
+                {
+                    if (rowMax[i] < grid[i][j])
+                        rowMax[i] = grid[i][j];
+                    if (colMax[j] < grid[i][j])
+                        colMax[j] = grid[i][j];
+                }
+            }
+            for (int i = 0; i < rowMax.Length; i++)
+            {
+                for (int j = 0; j < grid[0].Length; j++)
+                {
+                    count += Math.Min(rowMax[i], colMax[j]) - grid[i][j];
+                }
+            }
+            return count;
+        }
 
+        public IList<IList<int>> FindMatrix(int[] nums)
+        {
+            var numCnt = new Dictionary<int, int>();
+            foreach (int num in nums)
+            {
+                if(numCnt.ContainsKey(num))
+                {
+                    numCnt[num]++;
+                }
+                else
+                {
+                    numCnt[num] = 1;
+                }
+            }
+            int maxCnt = numCnt.Values.Max();
+
+            var result = new List<IList<int>>();
+            for(int i = 0; i < maxCnt; i++)
+            {
+                result.Add(new List<int>());
+            }
+            foreach (var kvp in numCnt)
+            {
+                int number = kvp.Key;
+                int count = kvp.Value;
+                for(int i = 0; i < count; i++)
+                {
+                    result[i].Add(number);
+                }
+            }
+
+            return result;
+
+        }
         public int MaxIncreasingSubarrays(IList<int> nums) // [2,5,7,8,9,2,3,4,3,1]
         {
             int n = nums.Count;
@@ -186,8 +244,6 @@ namespace ForLeetodeProblems
 
             return ans;
         }
-
-
         public string[] DivideString(string s, int k, char fill)
         {
               int count = s.Length / k + (s.Length % k == 0 ? 0 : 1);
@@ -318,8 +374,6 @@ namespace ForLeetodeProblems
             }
             return result.ToString();
         }
-
-
         public int[] MinOperations(string boxes)
         {
             int n = boxes.Length;
@@ -339,7 +393,6 @@ namespace ForLeetodeProblems
 
             return result;
         }
-
         public int[][] DivideArray(int[] nums, int k)
         {
             List<int[]> result = new List<int[]>();
@@ -399,7 +452,6 @@ namespace ForLeetodeProblems
 
             return res;
         }
-
         public int MinOperations(int[] nums)
         {
             int count = 0;
@@ -416,12 +468,10 @@ namespace ForLeetodeProblems
             if (nums[nums.Length - 2] == 0 || nums[nums.Length - 1] == 0) return -1;
             return count;
         }
-
         private int FlipValue(int val)
         {
             return val == 1 ? 0 : 1;
         }
-
         public int NumberOfSubstrings(string s)
         {
             int count = 0;
@@ -444,7 +494,6 @@ namespace ForLeetodeProblems
 
             return count;
         }
-
         public int[] BuildArray(int[] nums)
         {
             int n = nums.Length;
