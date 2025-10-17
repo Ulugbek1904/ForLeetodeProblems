@@ -141,7 +141,7 @@ namespace ForLeetodeProblems
 
             //Console.WriteLine(object.ReferenceEquals(x, z)); 
 
-            Console.WriteLine(solution.MaxIncreasingSubarrays([-15, 19]));
+            Console.WriteLine(solution.MaxCoins([2, 4, 1, 2, 7, 8]));
 
 
         }
@@ -160,6 +160,51 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int MaxCoins(int[] piles) 
+        {
+            int maxCnt = 0;
+            int n = piles.Length;
+            Array.Sort(piles);
+
+            for(int i = n-2; i >= n/3; i--)
+            {
+                maxCnt += piles[i];
+                i--;
+            }
+
+            return maxCnt;
+        }
+
+        public int NumberOfBeams(string[] bank)
+        {
+            int n = bank.Length;
+
+            var secDevCnt = new List<int>();
+
+            for (int i = 0; i < n; i++)
+            {
+                int count = 0;
+                for (int j = 0; j < bank[i].Length; j++)
+                {
+                    if (bank[i][j] == '1')
+                    {
+                        count++;
+                    }
+                }
+                if (count != 0)
+                {
+                    secDevCnt.Add(count);
+                }
+            }
+
+            int res = 0;
+            for(int i = 0;i < secDevCnt.Count; i++)
+            {
+                res += secDevCnt[i] * secDevCnt[i + 1];
+            }
+
+            return res;
+        }
         public int MaxIncreaseKeepingSkyline(int[][] grid)
         {
             int count = 0;
@@ -184,7 +229,6 @@ namespace ForLeetodeProblems
             }
             return count;
         }
-
         public IList<IList<int>> FindMatrix(int[] nums)
         {
             var numCnt = new Dictionary<int, int>();
