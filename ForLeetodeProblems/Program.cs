@@ -141,7 +141,8 @@ namespace ForLeetodeProblems
 
             //Console.WriteLine(object.ReferenceEquals(x, z)); 
 
-            Console.WriteLine(solution.MaxCoins([2, 4, 1, 2, 7, 8]));
+            //Console.WriteLine(solution.MaxCoins([2, 4, 1, 2, 7, 8]));
+
 
 
         }
@@ -160,6 +161,26 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int MaxDistinctElements(int[] nums, int k)
+        {
+            int res = 0;
+            Array.Sort(nums);
+            int prevElmt = int.MinValue;
+            foreach(int num in nums)
+            {
+                int currElmt = Math.Min(num + k, Math.Max(num - k, prevElmt + 1));
+
+                if ((currElmt> prevElmt))
+                {
+                    res++;
+                    prevElmt = currElmt;
+                }
+            }
+
+            return res;
+        }
+
+
         public int MaxCoins(int[] piles) 
         {
             int maxCnt = 0;
