@@ -143,8 +143,7 @@ namespace ForLeetodeProblems
 
             //Console.WriteLine(solution.MaxCoins([2, 4, 1, 2, 7, 8]));
 
-
-
+            Console.WriteLine(solution.FindLexSmallestString("5525",9,2));
         }
     }
 
@@ -161,6 +160,66 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public string GetSmallestString(string s)
+        {
+            var charArray = s.ToCharArray();
+            int left = 0, right = charArray.Length - 1;
+            while (left < right)
+            {
+                if ((int.Parse(charArray[left].ToString()) % 2) == (int.Parse(charArray[left + 1].ToString()) % 2))
+                {
+                    if (charArray[left] > charArray[left + 1])
+                    {
+                        char temp = charArray[left];
+                        charArray[left] = charArray[left + 1];
+                        charArray[left + 1] = temp;
+                        left = right;
+                    }
+                }
+                left++;
+            }
+
+            return new string(charArray);
+        }
+
+
+        public string FindLexSmallestString(string s, int a, int b)
+        {
+            var visited = new HashSet<string>();
+            var queue = new Queue<string>();
+            queue.Enqueue(s);
+            visited.Add(s);
+            string result = s;
+            while (queue.Count > 0)
+            {
+                string current = queue.Dequeue();
+                if (string.Compare(current, result) < 0)
+                {
+                    result = current;
+                }
+                char[] addAChars = current.ToCharArray();
+                for (int i = 1; i < addAChars.Length; i += 2)
+                {
+                    int digit = (addAChars[i] - '0' + a) % 10;
+                    addAChars[i] = (char)(digit + '0');
+                }
+                string addAString = new string(addAChars);
+                if (!visited.Contains(addAString))
+                {
+                    visited.Add(addAString);
+                    queue.Enqueue(addAString);
+                }
+                var substring = current.Substring(b);
+                string rotateBString = substring + current.Substring(0, b);
+                if (!visited.Contains(rotateBString))
+                {
+                    visited.Add(rotateBString);
+                    queue.Enqueue(rotateBString);
+                }
+            }
+            return result;
+
+        }
         public int MaxDistinctElements(int[] nums, int k)
         {
             int res = 0;
@@ -179,8 +238,6 @@ namespace ForLeetodeProblems
 
             return res;
         }
-
-
         public int MaxCoins(int[] piles) 
         {
             int maxCnt = 0;
