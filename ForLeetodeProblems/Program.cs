@@ -160,6 +160,35 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+
+        public string SmallestString(string s)
+        {
+            var charArray = s.ToCharArray();
+            int left = 0;
+            while (left < charArray.Length)
+            {
+                if (charArray[left] != 'a')
+                {
+                    while (left < charArray.Length && charArray[left] != 'a')
+                    {
+                        charArray[left] = (char)(charArray[left] - 1);
+                        left++;
+                    }
+                    if(left == charArray.Length-1 && charArray[left] == 'a')  
+                    {
+                        charArray[left - 1] = 'z';
+                    }
+                    break;
+                }
+                if (left == charArray.Length - 1 && charArray[left] == 'a')
+                {
+                    charArray[left - 1] = 'z';
+                }
+                left++;
+            }
+
+            return new string(charArray);
+        }
         public string GetSmallestString(string s)
         {
             var charArray = s.ToCharArray();
@@ -181,8 +210,6 @@ namespace ForLeetodeProblems
 
             return new string(charArray);
         }
-
-
         public string FindLexSmallestString(string s, int a, int b)
         {
             var visited = new HashSet<string>();
