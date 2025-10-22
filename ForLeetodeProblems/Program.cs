@@ -143,7 +143,8 @@ namespace ForLeetodeProblems
 
             //Console.WriteLine(solution.MaxCoins([2, 4, 1, 2, 7, 8]));
 
-            Console.WriteLine(solution.FindLexSmallestString("5525",9,2));
+            //Console.WriteLine(solution.FindLexSmallestString("5525",9,2));
+
         }
     }
 
@@ -160,34 +161,192 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
-
-        public string SmallestString(string s)
-        {
-            var charArray = s.ToCharArray();
-            int left = 0;
-            while (left < charArray.Length)
-            {
-                if (charArray[left] != 'a')
+        public string ReverseStr(string s, int k)
+            { 
+                var charArray = s.ToCharArray();
+                for (int i = 0; i < charArray.Length; i += 2 * k)
                 {
-                    while (left < charArray.Length && charArray[left] != 'a')
+                    int left = i;
+                    int right = Math.Min(i + k - 1, charArray.Length - 1);
+                    while (left < right)
                     {
-                        charArray[left] = (char)(charArray[left] - 1);
+                        char temp = charArray[left];
+                        charArray[left] = charArray[right];
+                        charArray[right] = temp;
                         left++;
+                        right--;
                     }
-                    if(left == charArray.Length-1 && charArray[left] == 'a')  
-                    {
-                        charArray[left - 1] = 'z';
-                    }
-                    break;
                 }
-                if (left == charArray.Length - 1 && charArray[left] == 'a')
+                return new string(charArray);
+            }
+        public IList<string> RemoveAnagrams(string[] words)
+        {
+            var result = new List<string>();
+            string prevWordSorted = "";
+            foreach (var word in words)
+            {
+                var charArray = word.ToCharArray();
+                Array.Sort(charArray);
+                var sortedWord = new string(charArray);
+                if (sortedWord != prevWordSorted)
                 {
-                    charArray[left - 1] = 'z';
+                    result.Add(word);
+                    prevWordSorted = sortedWord;
                 }
-                left++;
+            }
+            return result;
+        }
+        public int CountAnagrams(string s)
+        {
+            int count = 0;
+            var words = s.Split(' ');
+            foreach (var word in words)
+            {
+                var charCount = new Dictionary<char, int>();
+                foreach (var c in word)
+                {
+                    if (charCount.ContainsKey(c))
+                    {
+                        charCount[c]++;
+                    }
+                    else
+                    {
+                        charCount[c] = 1;
+                    }
+                }
+                long numerator = 1;
+                for (int i = 1; i <= word.Length; i++)
+                {
+                    numerator = (numerator * i) % 1000000007;
+                }
+                long denominator = 1;
+                foreach (var kvp in charCount)
+                {
+                    for (int i = 1; i <= kvp.Value; i++)
+                    {
+                        denominator = (denominator * i) % 1000000007;
+                    }
+                }
+                long modInverseDenominator = ModInverse(denominator, 1000000007);
+                long anagramCount = (numerator * modInverseDenominator) % 1000000007;
+                count = (int)((count + anagramCount) % 1000000007);
+            }
+            return count;
+        }
+        private long ModInverse(long a, long mod)
+        {
+            return Power(a, mod - 2, mod);
+        }
+        private long Power(long baseNum, long exponent, long mod)
+        {
+            long result = 1;
+            baseNum = baseNum % mod;
+            while (exponent > 0)
+            {
+                if ((exponent & 1) == 1)
+                {
+                    result = (result * baseNum) % mod;
+                }
+                exponent = exponent >> 1;
+                baseNum = (baseNum * baseNum) % mod;
+            }
+            return result;
+        }
+
+        public string SortVowels(string s)
+        {
+            StringBuilder sb = new StringBuilder();
+            var vowels = new HashSet<char>() { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
+            var vowelChars = new List<char>();
+            foreach (var c in s)
+            {
+                if (vowels.Contains(c))
+                {
+                    vowelChars.Add(c);
+                }
+            }
+            vowelChars.Sort();
+            int vowelIndex = 0;
+            foreach (var c in s)
+            {
+                if (vowels.Contains(c))
+                {
+                    sb.Append(vowelChars[vowelIndex]);
+                    vowelIndex++;
+                }
+                else
+                {
+                    sb.Append(c);
+                }
             }
 
-            return new string(charArray);
+            return sb.ToString();
+        }
+        public string ReverseVowels(string s)
+        {
+            StringBuilder sb = new StringBuilder();
+            var vowels = new HashSet<char>() { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
+            var vowelChars = new List<char>();
+            foreach (var c in s)
+            {
+                if (vowels.Contains(c))
+                {
+                    vowelChars.Add(c);
+                }
+            }
+            int vowelIndex = vowelChars.Count - 1;
+            foreach (var c in s)
+            {
+                if (vowels.Contains(c))
+                {
+                    sb.Append(vowelChars[vowelIndex]);
+                    vowelIndex--;
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
+        public string FinalString(string s)
+        {
+            var str = new StringBuilder();
+            foreach(var c in s)
+            {
+                if (c == 'i')
+                {
+                    var reversedStr = new StringBuilder();
+                    for(int i = str.Length - 1; i >= 0; i--)
+                    {
+                        reversedStr.Append(str[i]);
+                    }
+                    str = reversedStr;
+                }
+                else
+                {
+                    str.Append(c);
+                }
+            }
+
+            return str.ToString();
+        }
+        public int FinalValueAfterOperations(string[] operations)
+        {
+            var value = 0;
+            foreach(var operation in operations)
+            {
+                if (operation.Contains('+'))
+                {
+                    value++;
+                }
+                else
+                {
+                    value--;
+                }
+            }
+
+            return value;
         }
         public string GetSmallestString(string s)
         {
