@@ -161,6 +161,18 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int NumWaterBottles(int numBottles, int numExchange)
+        {
+            int totalDrank = numBottles;
+            int emptyBottles = numBottles;
+            while (emptyBottles >= numExchange)
+            {
+                int newBottles = emptyBottles / numExchange;
+                totalDrank += newBottles;
+                emptyBottles = emptyBottles % numExchange + newBottles;
+            }
+            return totalDrank;
+        }
         public string ReverseStr(string s, int k)
             { 
                 var charArray = s.ToCharArray();
