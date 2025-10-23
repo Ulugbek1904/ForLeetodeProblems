@@ -161,6 +161,44 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int MinSwaps(string s)
+        {
+            int openBrackets = 0, closeBrackets = 0;
+            foreach (char c in s)
+            {
+                if (c == '[')
+                {
+                    openBrackets++;
+                }
+                else if (c == ']')
+                {
+                    if (openBrackets > 0)
+                    {
+                        openBrackets--;
+                    }
+                    else
+                    {
+                        closeBrackets++;
+                    }
+                }
+
+            }
+            return (closeBrackets + 1) / 2;
+        }
+        public int MaxBottlesDrunk(int numBottles, int numExchange)
+        {
+            var drinkedBottles = numBottles;
+            var emptyBottles = numBottles;
+            while (emptyBottles >= numExchange)
+            {
+                emptyBottles -= numExchange;
+                drinkedBottles++;
+                emptyBottles++;
+                numExchange++;
+            }
+
+            return drinkedBottles;
+        }
         public int NumWaterBottles(int numBottles, int numExchange)
         {
             int totalDrank = numBottles;
