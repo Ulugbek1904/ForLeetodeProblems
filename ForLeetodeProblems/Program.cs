@@ -161,6 +161,43 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int NextBeautifulNumber(int n)
+        {
+            int number = n + 1;
+            while (true)
+            {
+                if (IsBeautiful(number))
+                {
+                    return number;
+                }
+                number++;
+            }
+        }
+        private bool IsBeautiful(int number)
+        {
+            var digitCount = new Dictionary<int, int>();
+            while (number > 0)
+            {
+                int digit = number % 10;
+                if (digitCount.ContainsKey(digit))
+                {
+                    digitCount[digit]++;
+                }
+                else
+                {
+                    digitCount[digit] = 1;
+                }
+                number /= 10;
+            }
+            foreach (var kvp in digitCount)
+            {
+                if (kvp.Key != kvp.Value)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public int MinSwaps(string s)
         {
             int openBrackets = 0, closeBrackets = 0;
