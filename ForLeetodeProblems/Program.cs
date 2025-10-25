@@ -161,6 +161,46 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int[] DistributeCandies(int candies, int num_people)
+        {
+            int[] result = new int[num_people];
+            int candyToGive = 1;
+            int personIndex = 0;
+            while (candies > 0)
+            {
+                if (candies >= candyToGive)
+                {
+                    result[personIndex] += candyToGive;
+                    candies -= candyToGive;
+                }
+                else
+                {
+                    result[personIndex] += candies;
+                    candies = 0;
+                }
+                candyToGive++;
+                personIndex = (personIndex + 1) % num_people;
+            }
+            return result;
+        }
+        public int TotalMoney(int n)
+        {
+            int total = 0;
+            int weeks = n / 7;
+            int days = n % 7;
+            for (int i = 0; i < weeks; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    total += (i + 1) + j;
+                }
+            }
+            for (int j = 0; j < days; j++)
+            {
+                total += (weeks + 1) + j;
+            }
+            return total;
+        }
         public int NextBeautifulNumber(int n)
         {
             int number = n + 1;
