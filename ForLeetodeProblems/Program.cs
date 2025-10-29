@@ -203,6 +203,50 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int SmallestNumber(int n)
+        {
+            if (n == 1) return 1;
+            int power = 1;
+
+            while (power < n)
+            {
+                power = (power << 1) | 1;
+            }
+
+            return power;
+        }
+        public int CountValidSelections(int[] nums)
+        {
+            int n = nums.Length;
+            int count = 0;
+            int sum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                if (nums[i] == 0)
+                {
+                    int currentSum = 0;
+                    for (int j = i+1; j < n; j++)
+                    {
+                        currentSum += nums[j];
+                    }
+                    if ((currentSum == sum))
+                    {
+                        if(n >= 1)
+                        {
+                            count += 2;
+                        }
+                        else 
+                            count++;
+                    }
+                    else if(Math.Abs(currentSum-sum) == 1)
+                    {
+                        count++;
+                    }
+                }
+                sum += nums[i];                
+            }
+            return count;
+        }
         public void SetZeroes(int[][] matrix)
         {
             int m = matrix.Length;
@@ -260,7 +304,6 @@ namespace ForLeetodeProblems
                 }
             }
         }
-
         public int[] DistributeCandies(int candies, int num_people)
         {
             int[] result = new int[num_people];
