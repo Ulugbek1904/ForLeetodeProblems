@@ -203,6 +203,17 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int MinNumberOperations(int[] target)
+        {
+            int result = target[0];
+            int n = target.Length;
+            for(int i= 1; i < n; i++)
+            {
+                result += Math.Max(target[i] - target[i - 1], 0);                
+            }
+
+            return result;
+        }
         public int MinBitFlips(int start, int goal)
         {
             int count = 0;
@@ -213,18 +224,6 @@ namespace ForLeetodeProblems
                 x <<= 1;
             }
             return count;
-        }
-        public int SmallestNumber(int n)
-        {
-            if (n == 1) return 1;
-            int power = 1;
-
-            while (power < n)
-            {
-                power = (power << 1) | 1;
-            }
-
-            return power;
         }
         public int CountValidSelections(int[] nums)
         {
