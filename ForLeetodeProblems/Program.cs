@@ -14,7 +14,6 @@ namespace ForLeetodeProblems
         {
             Solution solution = new Solution();
 
-            Console.WriteLine(solution.GetSneakyNumbers([0, 3, 2, 1, 3, 2]));
         }
     }
 
