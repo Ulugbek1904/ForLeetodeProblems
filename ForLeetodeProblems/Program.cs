@@ -70,8 +70,91 @@ namespace ForLeetodeProblems
             this.next = next;
         }
     }
-    public class Solution 
+    public class Solution
     {
+        public int MaxSubarrayLength(int[] nums, int k)
+        {
+            int result = 0;
+            var freq = new Dictionary<int, int>();
+            int left = 0;
+            int right = 0;
+            for(int i = 0; i < nums.Length; i++)
+            {
+                if (freq[nums[i]] > k)
+                        break;
+                if (!freq.ContainsKey(nums[i]))
+                    freq[nums[i]] = 0;
+
+                freq[nums[i]]++;
+                left = i;
+                result += nums[i] * freq[nums[i]]; 
+            }
+
+            for(int i = left; i < nums.Length; i++)
+            {
+
+            }
+        }
+
+        public int[] FindXSum(int[] nums, int k, int x)
+        {
+            List<int> result = new List<int>();
+
+            Dictionary<int, int> freq = new Dictionary<int, int>();
+
+            for (int i = 0; i < k; i++)
+            {
+                if (!freq.ContainsKey(nums[i]))
+                    freq[nums[i]] = 0;
+
+                freq[nums[i]]++;
+            }
+
+            result.Add(ComputeXSum(freq, x));
+
+            for (int i = k; i < nums.Length; i++)
+            {
+                int preNum = nums[i - k];
+                int nextNum = nums[i];
+
+                freq[preNum]--;
+                if (freq[preNum] == 0)
+                    freq.Remove(preNum);
+
+                if (!freq.ContainsKey(nextNum))
+                    freq[nextNum] = 0;
+                freq[nextNum]++;
+
+                result.Add(ComputeXSum(freq, x));
+            }
+
+            return result.ToArray();
+        }
+
+        private int ComputeXSum(Dictionary<int, int> freq, int x)
+        {
+            List<KeyValuePair<int, int>> items = freq.ToList();
+
+            items.Sort((a, b) =>
+            {
+                if (b.Value != a.Value)
+                    return b.Value.CompareTo(a.Value);
+                else
+                    return b.Key.CompareTo(a.Key);
+            });
+
+            int sum = 0;
+            int count = 0;
+
+            foreach (var pair in items)
+            {
+                if (count == x) break;
+                sum += pair.Key * pair.Value;
+                count++;
+            }
+
+            return sum;
+        }
         public int MinNumberOperations(int[] target)
         {
             int result = target[0];
