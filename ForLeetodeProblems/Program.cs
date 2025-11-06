@@ -203,6 +203,33 @@ namespace ForLeetodeProblems
     }
     public class Solution 
     {
+        public int[] RecoverOrder(int[] order, int[] friends)
+        {
+            var answer = new int[friends.Length];
+            int index = 0;
+            for (int i = 0; i < order.Length; i++)
+            {
+                for (int j = 0; j < friends.Length; j++)
+                {
+                    if (friends[j] == order[i])
+                    {
+                        answer[index++] = j; break;
+                    }
+                }
+            }
+            return answer;
+        }
+        public int[] GetConcatenation(int[] nums)
+        {
+            int n = nums.Length;
+            var ans = new int[2 * n];
+            for (int i = 0; i < 2 * n; i++)
+            {
+                ans[i] = nums[i / n];
+            }
+
+            return ans;
+        }
         public int[] DistributeCandies(int candies, int num_people)
         {
             int[] result = new int[num_people];
