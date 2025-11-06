@@ -13,137 +13,6 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            //Console.WriteLine(solution.ArithmeticTriplets([2, 7, 11, 15], 9));
-            //Console.WriteLine(solution.IsPalindrome(121));
-
-            //IList<int> result = solution.FindKthNumber(13);
-            //foreach (int i in result)
-            //{
-            //    Console.WriteLine(i);
-            //}
-
-            //Console.WriteLine(solution.IsMatch("mississippi", "mis*is*p*."));
-
-            //int result = solution.FindKthNumber(804289384, 42641503);
-            //Console.WriteLine(result);
-            //Console.WriteLine(solution.IsPerfectSquare(36));
-
-            //int number = solution.MinExtraChar("dwmodizxvvbosxxw", ["ox", "lb", "diz", "gu", "v", "ksv", "o", "nuq", "r", "txhe", "e", "wmo", "cehy", "tskz", "ds", "kzbu"]);
-            //Console.WriteLine(number);
-
-            //Console.WriteLine(solution.RomanToInt("MIX"));
-
-            //Console.WriteLine(solution.LongestCommonPrefix(["flew","float","flower"]));
-
-            //Console.WriteLine(solution.StrStr("aaa","aaaa"));
-
-            //Console.WriteLine(solution.Reverse(1534236469));
-
-            //Console.WriteLine(solution.Fib(6));
-
-            //Console.WriteLine(solution.ReverseOnlyLetters("a--cd"));
-
-            //string[] people = { "Tom", "Bob", "Sam", "Tim", "Tomas", "Bill" };
-
-            //var selectedPeople = people.Where(x => x.ToString().StartsWith("T"))
-            //                        .OrderBy(x => x);
-
-            //foreach (string person in selectedPeople)
-            //{
-            //    Console.WriteLine(person);
-            //}
-
-            //Solution solution1 = new Solution();
-            //char output = solution.FindingHardLetter(6, "defghi", "13 24 26 30 31 33");
-            //Console.WriteLine(output);
-
-            //Solution solution1 = new Solution();
-            //long answer = solution1.Maximum69Number(9996);
-            //Console.WriteLine(answer);
-
-            //var res = Solution.LetterCombinations("23");
-            //foreach ( var item in res )
-            //{
-            //    Console.WriteLine(item);
-            //}
-            //Solution solution1 = new Solution();
-
-            //Console.WriteLine(solution1.NumberToWords(123456789));
-
-            //Solution solution1 = new Solution();
-
-            //Console.WriteLine(solution1.MaxAscendingSum([10,20,30,5,10,50]));
-
-            //Solution solution1 = new Solution();
-            //Console.WriteLine(solution1.MyPow(2.000,10));
-
-            //char[] message = "asdas".ToCharArray();
-            //char key = 'K';
-
-            //for (int i = 0; i < message.Length; i++)
-            //{
-            //    message[i] = (char)(message[i] ^ key);
-            //}
-            //Console.WriteLine($"Shifrlangan xabar: {new string(message)}");
-
-            //for (int i = 0; i < message.Length; i++)
-            //{
-            //    message[i] = (char)(message[i] ^ key);
-            //}
-            //Console.WriteLine($"Asl xabar: {new string(message)}");
-
-            //Console.WriteLine(solution.NumberOfAlternatingGroups([0,0,0,1],3));
-
-            //Console.WriteLine(solution.GetLucky("leetcode",1));
-            //Console.WriteLine((int)'i' - 96);
-
-            //Console.WriteLine(solution.ReverseDegree("abc"));
-
-            //Console.WriteLine(solution.NumRabbits([10,10,10]));
-
-            //Console.WriteLine(solution.GroupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
-
-            //Console.WriteLine("asnwer: ");
-            //Console.WriteLine(solution.CountCompleteSubarrays([1, 3, 1, 2, 2]));
-
-            //Console.WriteLine(solution.CountInterestingSubarrays([3, 1, 9, 6], 3, 0));
-
-            //Console.WriteLine(solution.CountSubarrays([3, 1, 5, 3, 4, 5], 1,3));
-            //Console.WriteLine(solution.SingleNonDuplicate([1, 1, 2, 2, 3]));
-            //Console.WriteLine(solution.NumSubarraysWithSum([0,0,0,0,0], 0));
-            //Console.WriteLine(solution.DivisorSubstrings(430043, 2));
-            //string a = "abc";
-            //string b = new string("abc".ToCharArray());
-            //string c = string.Intern(b);
-            //string d = new string("abc");
-
-            //Console.WriteLine(object.ReferenceEquals(a, b));
-            //Console.WriteLine(object.ReferenceEquals(a, c));
-            //Console.WriteLine(a.Equals(b));
-            //Console.WriteLine(a.Equals(b));
-            //Console.WriteLine(b.Equals(c));
-            //Console.WriteLine(a.GetHashCode() == b.GetHashCode());
-
-            //Console.WriteLine(object.ReferenceEquals(a, d));
-            //Console.WriteLine(object.ReferenceEquals(d, c));
-            //Console.WriteLine(a.Equals(d));
-            //Console.WriteLine(d.Equals(b));
-            //Console.WriteLine(b.Equals(d));
-            //Console.WriteLine(d.GetHashCode() == b.GetHashCode());
-
-            //string x = "test";
-            //string y = "te" + "st";
-            //Console.WriteLine(object.ReferenceEquals(x, y));
-
-            //string part1 = "te";
-            //string part2 = "st";
-            //string z = part1 + part2;
-
-            //Console.WriteLine(object.ReferenceEquals(x, z)); 
-
-            //Console.WriteLine(solution.MaxCoins([2, 4, 1, 2, 7, 8]));
-
-            //Console.WriteLine(solution.FindLexSmallestString("5525",9,2));
 
         }
     }
@@ -201,34 +70,201 @@ namespace ForLeetodeProblems
             this.next = next;
         }
     }
-    public class Solution 
+    public class Solution
     {
-        public int[] RecoverOrder(int[] order, int[] friends)
+        public int MaxSubarrayLength(int[] nums, int k)
         {
-            var answer = new int[friends.Length];
-            int index = 0;
-            for (int i = 0; i < order.Length; i++)
+            int result = 0;
+            var freq = new Dictionary<int, int>();
+            int left = 0;
+            int right = 0;
+            for(int i = 0; i < nums.Length; i++)
             {
-                for (int j = 0; j < friends.Length; j++)
+                if (freq[nums[i]] > k)
+                        break;
+                if (!freq.ContainsKey(nums[i]))
+                    freq[nums[i]] = 0;
+
+                freq[nums[i]]++;
+                left = i;
+                result += nums[i] * freq[nums[i]]; 
+            }
+
+            for(int i = left; i < nums.Length; i++)
+            {
+
+            }
+        }
+
+        public int[] FindXSum(int[] nums, int k, int x)
+        {
+            List<int> result = new List<int>();
+
+            Dictionary<int, int> freq = new Dictionary<int, int>();
+
+            for (int i = 0; i < k; i++)
+            {
+                if (!freq.ContainsKey(nums[i]))
+                    freq[nums[i]] = 0;
+
+                freq[nums[i]]++;
+            }
+
+            result.Add(ComputeXSum(freq, x));
+
+            for (int i = k; i < nums.Length; i++)
+            {
+                int preNum = nums[i - k];
+                int nextNum = nums[i];
+
+                freq[preNum]--;
+                if (freq[preNum] == 0)
+                    freq.Remove(preNum);
+
+                if (!freq.ContainsKey(nextNum))
+                    freq[nextNum] = 0;
+                freq[nextNum]++;
+
+                result.Add(ComputeXSum(freq, x));
+            }
+
+            return result.ToArray();
+        }
+
+        private int ComputeXSum(Dictionary<int, int> freq, int x)
+        {
+            List<KeyValuePair<int, int>> items = freq.ToList();
+
+            items.Sort((a, b) =>
+            {
+                if (b.Value != a.Value)
+                    return b.Value.CompareTo(a.Value);
+                else
+                    return b.Key.CompareTo(a.Key);
+            });
+
+            int sum = 0;
+            int count = 0;
+
+            foreach (var pair in items)
+            {
+                if (count == x) break;
+                sum += pair.Key * pair.Value;
+                count++;
+            }
+
+            return sum;
+        }
+        public int MinNumberOperations(int[] target)
+        {
+            int result = target[0];
+            int n = target.Length;
+            for(int i= 1; i < n; i++)
+            {
+                result += Math.Max(target[i] - target[i - 1], 0);                
+            }
+
+            return result;
+        }
+        public int MinBitFlips(int start, int goal)
+        {
+            int count = 0;
+            int x = start ^ goal;
+            while (x > 0)
+            {
+                count += (x & 1);
+                x <<= 1;
+            }
+            return count;
+        }
+        public int CountValidSelections(int[] nums)
+        {
+            int n = nums.Length;
+            int count = 0;
+            int sum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                if (nums[i] == 0)
                 {
-                    if (friends[j] == order[i])
+                    int currentSum = 0;
+                    for (int j = i+1; j < n; j++)
                     {
-                        answer[index++] = j; break;
+                        currentSum += nums[j];
+                    }
+                    if ((currentSum == sum))
+                    {
+                        if(n >= 1)
+                        {
+                            count += 2;
+                        }
+                        else 
+                            count++;
+                    }
+                    else if(Math.Abs(currentSum-sum) == 1)
+                    {
+                        count++;
+                    }
+                }
+                sum += nums[i];                
+            }
+            return count;
+        }
+        public void SetZeroes(int[][] matrix)
+        {
+            int m = matrix.Length;
+            int n = matrix[0].Length;
+            bool firstRowZero = false, firstColZero = false;
+            for (int j = 0; j < n; j++)
+            {
+                if (matrix[0][j] == 0)
+                {
+                    firstRowZero = true;
+                    break;
+                }
+            }
+            for (int i = 0; i < m; i++)
+            {
+                if (matrix[i][0] == 0)
+                {
+                    firstColZero = true;
+                    break;
+                }
+            }
+            for (int i = 1; i < m; i++)
+            {
+                for (int j = 1; j < n; j++)
+                {
+                    if (matrix[i][j] == 0)
+                    {
+                        matrix[i][0] = 0;
+                        matrix[0][j] = 0;
                     }
                 }
             }
-            return answer;
-        }
-        public int[] GetConcatenation(int[] nums)
-        {
-            int n = nums.Length;
-            var ans = new int[2 * n];
-            for (int i = 0; i < 2 * n; i++)
+            for (int i = 1; i < m; i++)
             {
-                ans[i] = nums[i / n];
+                for (int j = 1; j < n; j++)
+                {
+                    if (matrix[i][0] == 0 || matrix[0][j] == 0)
+                    {
+                        matrix[i][j] = 0;
+                    }
+                }
             }
-
-            return ans;
+            if (firstRowZero)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    matrix[0][j] = 0;
+                }
+            }
+            if (firstColZero)
+            {
+                for (int i = 0; i < m; i++)
+                {
+                    matrix[i][0] = 0;
+                }
+            }
         }
         public int[] DistributeCandies(int candies, int num_people)
         {
