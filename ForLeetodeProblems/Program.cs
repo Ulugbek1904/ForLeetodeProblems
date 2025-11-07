@@ -72,29 +72,6 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
-        public int MaxSubarrayLength(int[] nums, int k)
-        {
-            int result = 0;
-            var freq = new Dictionary<int, int>();
-            int left = 0;
-            int right = 0;
-            for(int i = 0; i < nums.Length; i++)
-            {
-                if (freq[nums[i]] > k)
-                        break;
-                if (!freq.ContainsKey(nums[i]))
-                    freq[nums[i]] = 0;
-
-                freq[nums[i]]++;
-                left = i;
-                result += nums[i] * freq[nums[i]]; 
-            }
-
-            for(int i = left; i < nums.Length; i++)
-            {
-
-            }
-        }
 
         public int[] FindXSum(int[] nums, int k, int x)
         {
