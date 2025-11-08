@@ -13,7 +13,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-
+            Console.WriteLine(solution.TransformArray([1, 5, 1, 4, 2]));
         }
     }
 
@@ -72,6 +72,57 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int NumberOfEmployeesWhoMetTarget(int[] hours, int target)
+        {
+            int count = 0;
+            foreach(int h in hours)
+            {
+                if(h >= target) count++;
+            }
+
+            return count;
+        }
+        public IList<bool> KidsWithCandies(int[] candies, int extraCandies)
+        {
+            var result = new List<bool>();
+
+            var max = candies.Max();
+            for(int i = 0; i < candies.Length; i++)
+            {
+                if (candies[i]+extraCandies > max)
+                    result.Add(true);
+                else
+                    result.Add(false);
+            }
+
+            return result;
+        }
+        public int MinOperations(int[] nums, int k)
+        {
+            int sum = nums.Sum();
+            return sum % k;
+        }
+        public int[] TransformArray(int[] nums) //  [1,5,1,4,2]
+        {
+            var result = new int[nums.Length];
+            int right = nums.Length - 1;
+            int left = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] % 2 == 0)
+                {
+                    result[left] = 0;
+                    left++;
+                }
+                else
+                {
+                    result[right] = 1;
+                    right--;
+                }
+            }
+
+            return result;
+        }
 
         public int[] FindXSum(int[] nums, int k, int x)
         {
