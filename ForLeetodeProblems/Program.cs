@@ -72,6 +72,68 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int NumberOfPairs(int[] nums1, int[] nums2, int k)
+        {
+            int count = 0;
+            foreach(int i in nums1)
+            {
+                foreach(int j in nums2)
+                {
+                    if(i % (j*k) == 0)
+                        count++;
+                }
+            }
+
+            return count;
+        }
+
+        public int[] SmallerNumbersThanCurrent(int[] nums)
+        { 
+            var result = new int[nums.Length];
+            for(int i = 0; i < nums.Length; i++)
+            {
+                int count = 0;
+                for(int j = 0; j < nums.Length; j++)
+                {
+                    if(nums[j] < nums[i])
+                    {
+                        count++;
+                    }
+                }
+                result[i] = count;
+            }
+
+            return result;
+        }
+
+        public int MinOperations(int[] nums)
+        {
+            int result = 0;
+            HashSet<int> set = new HashSet<int>(); // [1,2,1,2,1,2]
+            foreach (var x in nums)
+            {
+                if (x != 0)
+                {
+                    set.Add(x);
+                }
+                else
+                {
+
+                    set.Clear();
+                }
+            }
+            return set.Count;
+        }
+        public int[] SetvaluesZero(int[] nums, int min)
+        {
+            for(int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] == min)
+                    nums[i] = 0;
+            }
+
+            return nums;
+        }
         public int NumberOfEmployeesWhoMetTarget(int[] hours, int target)
         {
             int count = 0;
