@@ -14,7 +14,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.EarliestTime([[1, 6], [2, 3]]));
+            Console.WriteLine(solution.MaxDivScore([20, 14, 21, 10], [10, 16, 20]));
         }
     }
 
@@ -70,9 +70,68 @@ namespace ForLeetodeProblems
             this.val = val;
             this.next = next;
         }
+
     }
     public class Solution
     {
+        public string[] FindOcurrences(string text, string first, string second)
+        {
+            var res = new List<string>();
+
+            var sp = text.Split(' ');
+            for(int i  = 0; i < sp.Length-2; i++)
+            {
+                if(sp[i] == first && sp[i+1] == second)
+                {
+                    res.Add(sp[i+3]);
+                    i++;
+                }
+            }
+
+            return res.ToArray();
+        }
+        public bool CheckAlmostEquivalent(string word1, string word2)
+        {
+            var freq = new int[26];
+
+            foreach (var ch in word1)
+                freq[ch - 'a']++;
+
+            foreach (var ch in word2)
+                freq[ch - 'a']--;
+
+            foreach (var f in freq)
+                if (Math.Abs(f) > 3)
+                    return false;
+
+            return true;
+        }
+        public int MaxDivScore(int[] nums, int[] divisors)
+        {
+            int max = 0;
+            int minDiv = int.MaxValue;
+            foreach(int div in divisors)
+            {
+                int count = 0;
+                foreach (int num in nums)
+                {
+                    if (num % div == 0) count++;
+                }
+
+                if(count > max)
+                {
+                    max = count;
+                    minDiv = div;
+                }
+                else if(count == max)
+                {
+                    minDiv = Math.Min(minDiv, div);
+                }
+            }
+
+            return minDiv;
+        }
+
         public int MaxProductDifference(int[] nums)
         {
             int n = nums.Length-1;
