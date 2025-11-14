@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Linq;
-using System;
-using System.Collections.Concurrent;
-using System.Runtime.InteropServices.Marshalling;
 
 namespace ForLeetodeProblems
 {
@@ -13,7 +14,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.TransformArray([1, 5, 1, 4, 2]));
+            Console.WriteLine(solution.EarliestTime([[1, 6], [2, 3]]));
         }
     }
 
@@ -72,6 +73,155 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int MaxProductDifference(int[] nums)
+        {
+            int n = nums.Length-1;
+            Array.Sort(nums);
+            return (nums[n] * nums[n-1]) - (nums[0] * nums[1]);
+        }
+        public int MaxProduct(int[] nums)
+        {
+            Array.Sort(nums);
+
+            return (nums[nums.Length - 1]-1)* (nums[nums.Length - 2] - 1);
+        }
+        public int EarliestTime(int[][] tasks)
+        {
+            int min = int.MaxValue;
+            for(int i = 0; i < tasks.Length; i++)
+            {
+                if(tasks[i][0]+ tasks[i][1] <= min)
+                {
+                    min = tasks[i][0] + tasks[i][1];
+                }
+            }
+
+            return min;
+        }
+
+        public int SubarraySum(int[] nums)
+        {
+            int s = 0;
+            int st = 0;
+            for(int i = 0; i < nums.Length; i++)
+            {
+                st = Math.Max(0, i - nums[i]);
+                while(st <= i)
+                {
+                    s += nums[st];
+                    st++;
+                }
+            }
+
+            return s;
+        }
+
+        public int MaxOperations(string s)
+        {
+            int countOne = 0;
+            int ans = 0;
+            int i = 0;
+            while (i < s.Length)
+            {
+                if (s[i] == '0')
+                {
+                    while (i + 1 < s.Length && s[i + 1] == '0')
+                    {
+                        i++;
+                    }
+                    ans += countOne;
+                }
+                else
+                {
+                    countOne++;
+                }
+                i++;
+            }
+            return ans;
+        }
+        public int MinOperations(int[] nums)
+        {
+            int n = nums.Length;
+            int num1 = 0;
+            int g = 0;
+            foreach (int x in nums)
+            {
+                if (x == 1)
+                {
+                    num1++;
+                }
+                g = GCD(g, x);
+            }
+            if (num1 > 0)
+            {
+                return n - num1;
+            }
+            if (g > 1)
+            {
+                return -1;
+            }
+
+            int minLen = n;
+            for (int i = 0; i < n; i++)
+            {
+                int currentGcd = 0;
+                for (int j = i; j < n; j++)
+                {
+                    currentGcd = GCD(currentGcd, nums[j]);
+                    if (currentGcd == 1)
+                    {
+                        minLen = Math.Min(minLen, j - i + 1);
+                        break;
+                    }
+                }
+            }
+            return minLen + n - 2;
+        }
+
+        private int GCD(int a, int b)
+        {
+            while (b != 0)
+            {
+                int temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
+
+        //public int FindMaxForm(string[] strs, int m, int n)
+        //{
+        //    var count = new int[strs.Length];
+        //    for(int i = 0; i < count.Length; i++)
+        //    {
+
+        //    }
+
+        //    return count.Max();
+        //}
+        //public (int zero, int one) CanPick(string str, int m, int n)
+        //{
+        //    int countOf0 = 0;
+        //    int countOf1 = 0;
+        //    foreach(var c in str)
+        //    {
+        //        if (c == '0')
+        //        {
+        //            countOf0++;
+        //        }
+        //        else
+        //        {
+        //            countOf1++;
+        //        }
+
+        //        if (countOf0 > m)
+        //            return (0,0);
+        //        if (countOf1 > n)
+        //            return (0,0);
+        //    }
+
+        //    return (countOf0, countOf1);
+        //}
         public int NumberOfPairs(int[] nums1, int[] nums2, int k)
         {
             int count = 0;
@@ -106,7 +256,7 @@ namespace ForLeetodeProblems
             return result;
         }
 
-        public int MinOperations(int[] nums)
+        public int MinOperations2(int[] nums)
         {
             int result = 0;
             HashSet<int> set = new HashSet<int>(); // [1,2,1,2,1,2]
@@ -1082,22 +1232,7 @@ namespace ForLeetodeProblems
 
             return res;
         }
-        public int MinOperations(int[] nums)
-        {
-            int count = 0;
-            for (int i = 0; i < nums.Length - 2; i++)
-            {
-                if (nums[i] == 0)
-                {
-                    count++;
-                    nums[i] = FlipValue(nums[i]);
-                    nums[i + 1] = FlipValue(nums[i + 1]);
-                    nums[i + 2] = FlipValue(nums[i + 2]);
-                }
-            }
-            if (nums[nums.Length - 2] == 0 || nums[nums.Length - 1] == 0) return -1;
-            return count;
-        }
+        
         private int FlipValue(int val)
         {
             return val == 1 ? 0 : 1;
@@ -2056,30 +2191,7 @@ namespace ForLeetodeProblems
 
             return differentePairs.Count;
         }
-        public int MinOperations(int[] nums, int k)
-        {
-            int n = nums.Length;
-            nums = nums.OrderByDescending(x => x).ToArray();
-            int minOperations = 0;
-            
-            for(int i = 0; i < n - 1; i++)
-            {
-                if (nums[i] < k)
-                {
-                    minOperations = -1;
-                    break;
-                }
-                else if (nums[i] > k)
-                {
-                    if (nums[i+1] != nums[i])
-                    {
-                        minOperations++;
-                    }
-                }
-            }
-
-            return minOperations;
-        }
+        
         public int GetLucky(string s, int k)
         {
             string numStr = HelperMethod(s);
