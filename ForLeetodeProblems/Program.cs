@@ -1994,30 +1994,6 @@ namespace ForLeetodeProblems
 
             return differentePairs.Count;
         }
-        public int MinOperations(int[] nums, int k)
-        {
-            int n = nums.Length;
-            nums = nums.OrderByDescending(x => x).ToArray();
-            int minOperations = 0;
-            
-            for(int i = 0; i < n - 1; i++)
-            {
-                if (nums[i] < k)
-                {
-                    minOperations = -1;
-                    break;
-                }
-                else if (nums[i] > k)
-                {
-                    if (nums[i+1] != nums[i])
-                    {
-                        minOperations++;
-                    }
-                }
-            }
-
-            return minOperations;
-        }
         public int GetLucky(string s, int k)
         {
             string numStr = HelperMethod(s);
