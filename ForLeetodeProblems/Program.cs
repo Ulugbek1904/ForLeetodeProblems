@@ -74,6 +74,37 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int NumSub(string s)
+        {
+            double ans = 0;
+            int oC = 0;
+            for(int i = 0; i < s.Length; i++)
+            {
+                if(s[i] == '1')
+                {
+                    oC++;
+                }
+                {
+                    ans += ((oC * (oC + 1)) / 2) % (Math.Pow(10, 9) + 7);
+                }
+            }
+
+            return (int)ans;
+        }
+        public int TrailingZeroes(int n)
+        {
+            int fC = 0;
+            for (int i = 0; i <= n; i++)
+            {
+                while(i % 5 == 0 && i != 0)
+                {
+                    fC++;
+                    i /= 5;
+                }
+            }
+            
+            return fC;
+        }
         public string[] FindOcurrences(string text, string first, string second)
         {
             var res = new List<string>();
