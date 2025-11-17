@@ -14,7 +14,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.MaxDivScore([20, 14, 21, 10], [10, 16, 20]));
+            Console.WriteLine(solution.KLengthApart([1, 0, 0, 0, 1, 0, 0, 1], 2));
         }
     }
 
