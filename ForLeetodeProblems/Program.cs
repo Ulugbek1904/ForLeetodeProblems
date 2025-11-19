@@ -74,6 +74,15 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int FindFinalValue(int[] nums, int original)
+        {
+            if (nums.Contains(original))
+            {
+                return FindFinalValue(nums, original * 2);
+            }
+
+            return original;
+        }
         public bool IsOneBitCharacter(int[] bits)
         {
             for (int i = 0; i < bits.Length - 1;)
