@@ -74,6 +74,27 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public bool IsOneBitCharacter(int[] bits)
+        {
+            for (int i = 0; i < bits.Length - 1;)
+            {
+                if (bits[i] == 1)
+                {
+                    i += 2;
+                }
+                else
+                {
+                    i++;
+                }
+
+                if(i == bits.Length)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
         public int NumSub(string s)
         {
             double ans = 0;
