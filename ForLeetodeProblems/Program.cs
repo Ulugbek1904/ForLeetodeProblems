@@ -74,6 +74,16 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int MinOperations(int n)
+        {
+            int res = 0;
+            for (int i = 1; i < n; i += 2)
+            {
+                res += (n - i);
+            }
+
+            return res;
+        }
         public int FindFinalValue(int[] nums, int original)
         {
             if (nums.Contains(original))
