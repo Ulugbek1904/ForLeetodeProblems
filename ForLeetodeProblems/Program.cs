@@ -74,6 +74,75 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int OddCells(int m, int n, int[][] indices)
+        {
+            var matrix = new int[m][];
+            for (int i = 0; i < m; i++)
+            {
+                matrix[i] = new int[n];
+            }
+            foreach (var index in indices)
+            {
+                int row = index[0];
+                int col = index[1];
+                for (int j = 0; j < n; j++)
+                {
+                    matrix[row][j]++;
+                }
+                for (int i = 0; i < m; i++)
+                {
+                    matrix[i][col]++;
+                }
+            }
+            int oddCount = 0;
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (matrix[i][j] % 2 == 1)
+                    {
+                        oddCount++;
+                    }
+                }
+            }
+            return oddCount;
+        }
+
+
+        public int CountPalindromicSubsequence(string s)
+        {
+            var palStr = new HashSet<string>();
+            
+            var L = new Dictionary<char, int>();
+            var R = new Dictionary<char, int>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (!L.ContainsKey(s[i]))
+                    L[s[i]] = i;
+                R[s[i]] = i;
+            }
+
+            foreach (var kvp in L)
+            {
+                char ch = kvp.Key;
+                int LI = kvp.Value;
+                int RI = R[ch];
+                if (RI - LI >= 2)
+                {
+                    var midChars = new HashSet<char>();
+                    for (int i = LI + 1; i < RI; i++)
+                    {
+                        midChars.Add(s[i]);
+                    }
+                    foreach (var midCh in midChars)
+                    {
+                        palStr.Add($"{ch}{midCh}{ch}");
+                    }
+                }
+            }
+
+            return palStr.Count;
+        }
         public int NumSub(string s)
         {
             double ans = 0;
