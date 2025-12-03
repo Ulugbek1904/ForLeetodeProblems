@@ -73,6 +73,18 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int MaxDistinct(string s)
+        {
+            var distinctChars = new HashSet<char>();
+
+            foreach (char c in s)
+            {
+                distinctChars.Add(c);
+            }
+
+            return distinctChars.Count;
+        }
+
         public int MinimumSum(int num) // 2343
         {
             int sum = 0;
