@@ -14,6 +14,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
+
         }
     }
 
@@ -73,6 +74,21 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int CountCollisions(string directions)
+        {
+            directions = directions.TrimStart('L');
+            directions = directions.TrimEnd('R');
+
+            int res = 0;
+            for (int i = 0; i <= directions.Length; i++)
+            {
+                if (directions[i] != 'S')
+                {
+                    res++;
+                }
+            }
+            return res;
+        }
         public int MaxDistinct(string s)
         {
             var distinctChars = new HashSet<char>();
