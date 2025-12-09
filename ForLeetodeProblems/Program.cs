@@ -74,6 +74,70 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int SpecialTriplets(int[] nums)
+        {
+            const int mod = 1_000_000_007;
+
+            int maxVal = 100000;
+            int size = maxVal * 2;
+
+            long[] left = new long[size];
+            long[] right = new long[size];
+
+            foreach (int x in nums)
+                right[x]++;
+
+            long ans = 0;
+
+            foreach (int x in nums)
+            {
+                right[x]--;
+
+                int target = x * 2;
+
+                ans = (ans + left[target] * right[target]) % mod;
+
+                left[x]++;
+            }
+
+            return (int)ans;
+        }
+        public int SpecialTriplets2(int[] nums)
+        {
+            const int mod = 1_000_000_007;
+
+            var right = new Dictionary<int, int>();
+            var left = new Dictionary<int, int>();
+
+            foreach (var x in nums)
+            {
+                if (!right.ContainsKey(x)) right[x] = 0;
+                right[x]++;
+            }
+
+            long answer = 0;
+
+            for (int j = 0; j < nums.Length; j++)
+            {
+                int val = nums[j];
+
+                right[val]--;
+
+                int target = val * 2;
+
+                long leftCount = left.ContainsKey(target) ? left[target] : 0;
+
+                long rightCount = right.ContainsKey(target) ? right[target] : 0;
+
+                answer = (answer + (leftCount * rightCount) % mod) % mod;
+
+                if (!left.ContainsKey(val)) left[val] = 0;
+                left[val]++;
+            }
+
+            return (int)answer;
+        }
+
         public int CountCollisions(string directions)
         {
             directions = directions.TrimStart('L');
