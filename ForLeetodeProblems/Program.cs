@@ -74,6 +74,22 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int CountTriples(int n)
+        {
+            int cnt = 0;
+            for (int i = 1; i < n; i++)
+            {
+                for (int b = 1; b < n; b++)
+                {
+                    int c2 = i * i + b * b;
+                    int c = (int)Math.Sqrt(c2);
+
+                    if (c <= n && c * c == c2)
+                        cnt++;
+                }
+            }
+            return cnt;
+        }
         public int SpecialTriplets(int[] nums)
         {
             const int mod = 1_000_000_007;
