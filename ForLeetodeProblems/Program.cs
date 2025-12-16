@@ -74,6 +74,84 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public long GetDescentPeriods(int[] prices)
+        {
+            int res = 0;
+            int n = prices.Length;
+            int l = 0, r = 0;
+            while (r < n)
+            {
+                if (r > 0 && prices[r] == prices[r - 1] - 1)
+                {
+                    r++;
+                }
+                else
+                {
+                    int len = r - l;
+                    res += (len * (len + 1)) / 2;
+                    l = r;
+                    r++;
+                }
+            }
+
+            int length = r - l;
+            res += (length * (length + 1)) / 2;
+            return res;
+        }
+        public int MaximumWealth(int[][] accounts)
+        {
+            int max = 0;
+            for(int i =0; i < accounts.Length; i++)
+            {
+                int sum = 0;
+                foreach(int x in accounts[i])
+                {
+                    sum += x;
+                }
+                if (sum > max) max = sum;
+                sum = 0;
+            }
+
+            return max;
+        }
+        public int[] Shuffle(int[] nums, int n)
+        {
+            var ans = new int[2 * n];
+            int s = 0;
+            int e = n;
+            for(int i = 0; i < 2*n; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    ans[i] = nums[s];
+                    s++;
+                }
+                else
+                {
+                    ans[i] = nums[e];
+                    e++;
+                }
+            }
+
+            return ans;
+        }
+        public int AlternatingSum(int[] nums)
+        {
+            int sum = 0;
+            for(int i =0; i < nums.Length; i++)
+            {
+                if(i % 2 == 0)
+                {
+                    sum += nums[i];
+                }
+                else
+                {
+                    sum -= nums[i];
+                }
+            }
+
+            return sum;
+        }
         public int CountCollisions(string directions)
         {
             directions = directions.TrimStart('L');
