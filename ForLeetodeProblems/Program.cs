@@ -74,6 +74,24 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int MinDeletionSize(string[] strs)
+        {
+            int n = strs[0].Length;
+            int count = 0;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 1; j < strs.Length; j++)
+                {
+                    if (strs[j][i] < strs[j - 1][i])
+                    {
+                        count++;
+                        break;
+                    }
+                }
+            }
+
+            return count;
+        }
         public long GetDescentPeriods(int[] prices)
         {
             int res = 0;
