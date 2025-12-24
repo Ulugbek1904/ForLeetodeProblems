@@ -74,6 +74,27 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int MinimumBoxes(int[] apple, int[] capacity)
+        {
+            Array.Sort(capacity);
+            int sum = 0;
+            foreach (int i in apple)
+            {
+                sum+= i;
+            }
+            int n = capacity.Length;
+            for (int i = n -1; i >=0; i--)
+            {
+                if(sum <= 0)
+                {
+                    return capacity.Length -1 - i;
+                }
+                sum -= capacity[i];
+            }
+
+            return n;
+        }
+                
         public int ClimbStairs(int n)
         {
             if (n == 1 || n == 2)
