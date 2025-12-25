@@ -74,6 +74,21 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public IList<int> GetRow(int rowIndex) // 3
+        {
+
+            var row = new List<int>();  // [1,3,3,1]
+            for (int i = 0; i <= rowIndex; i++) // 0, 1, 2
+            {
+                row.Add(1); // 1
+                for (int j = i - 1; j > 0; j--)//
+                {
+                    row[j] = row[j] + row[j - 1];
+                }
+            }
+            return row;
+        }
+
         public long MaximumHappinessSum(int[] happiness, int k) // [12,1,42]  k = 3
         {
             long sum = 0;
