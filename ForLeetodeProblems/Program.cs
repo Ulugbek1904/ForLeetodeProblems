@@ -74,6 +74,28 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public long MaximumHappinessSum(int[] happiness, int k) // [12,1,42]  k = 3
+        {
+            long sum = 0;
+            Array.Sort(happiness);
+            int n = happiness.Length;
+            int a = 0;
+            for(int i =n-1; i>= n - k; i--)
+            {
+                int v = happiness[i] -a;
+                if (v <= 0)
+                {
+                    sum += 0;
+                }
+                else
+                {
+                    sum += happiness[i] - a;
+                }
+                a++;
+            }
+
+            return sum;
+        }
         public int MinimumBoxes(int[] apple, int[] capacity)
         {
             Array.Sort(capacity);
