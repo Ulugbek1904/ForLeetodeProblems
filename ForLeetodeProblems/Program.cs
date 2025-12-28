@@ -14,7 +14,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-
+            Console.WriteLine(solution.ConvertToTitle(23));
         }
     }
 
@@ -74,7 +74,62 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public string ConvertToTitle(int columnNumber)
+        {
+            return columnNumber == 0 ? "" : ConvertToTitle((columnNumber - 1) / 26) + (char)('A' + (columnNumber - 1) % 26);
+        }
+        public string AddBinary(string a, string b)
+        {
+            int i = a.Length - 1;
+            int j = b.Length - 1;
+            int carry = 0;
 
+            StringBuilder sb = new StringBuilder();
+
+            while (i >= 0 || j >= 0 || carry > 0)
+            {
+                int sum = carry;
+
+                if (i >= 0)
+                    sum += a[i--] - '0';
+
+                if (j >= 0)
+                    sum += b[j--] - '0';
+
+                sb.Insert(0, (sum % 2).ToString());
+                carry = sum / 2;
+            }
+
+            return sb.ToString();
+        }
+
+        public bool IsValid(string s)
+        {
+            var stack = new Stack<char>();
+
+            foreach (var ch in s)
+            {
+                if (ch == '(' || ch == '{' || ch == '[')
+                {
+                    stack.Push(ch);
+                }
+                else
+                {
+                    if (stack.Count == 0)
+                        return false;
+
+                    var top = stack.Pop();
+                    if (ch == ')' && top != ')' ||
+                        ch == '}' && top != '}' ||
+                        ch == ']' && top != ']')
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return stack.Count == 0;
+        }
         public int CountNegatives(int[][] grid)
         {
             int m = grid.Length;
