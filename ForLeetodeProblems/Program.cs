@@ -74,6 +74,95 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public bool WordPattern(string pattern, string s)
+        {
+            var words = s.Split(' ');
+            if (pattern.Length != words.Length)
+                return false;
+            var charToWord = new Dictionary<char, string>();
+            var wordToChar = new Dictionary<string, char>();
+            for (int i = 0; i < pattern.Length; i++)
+            {
+                char c = pattern[i];
+                string w = words[i];
+                if (charToWord.ContainsKey(c))
+                {
+                    if (charToWord[c] != w)
+                        return false;
+                }
+                else
+                {
+                    charToWord[c] = w;
+                }
+                if (wordToChar.ContainsKey(w))
+                {
+                    if (wordToChar[w] != c)
+                        return false;
+                }
+                else
+                {
+                    wordToChar[w] = c;
+                }
+            }
+            return true;
+        }
+        public bool IsAnagram(string s, string t)
+        {
+            if (s.Length != t.Length)
+                return false;
+            var charCount = new Dictionary<char, int>();
+            foreach (char c in s)
+            {
+                if (charCount.ContainsKey(c))
+                    charCount[c]++;
+                else
+                    charCount[c] = 1;
+            }
+            foreach (char c in t)
+            {
+                if (!charCount.ContainsKey(c))
+                    return false;
+                charCount[c]--;
+                if (charCount[c] < 0)
+                    return false;
+            }
+            return true;
+        }
+        public bool IsIsomorphic(string s, string t)
+        {
+            if (s.Length != t.Length)
+                return false;
+            var mapSToT = new Dictionary<char, char>();
+            var mapTToS = new Dictionary<char, char>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                char charS = s[i];
+                char charT = t[i];
+                if (mapSToT.ContainsKey(charS))
+                {
+                    if (mapSToT[charS] != charT)
+                        return false;
+                }
+                else
+                {
+                    mapSToT[charS] = charT;
+                }
+                if (mapTToS.ContainsKey(charT))
+                {
+                    if (mapTToS[charT] != charS)
+                        return false;
+                }
+                else
+                {
+                    mapTToS[charT] = charS;
+                }
+            }
+            return true;
+        }
+        public int TitleToNumber(string columnTitle)
+        {
+            return columnTitle.Length == 0 ? 0 : TitleToNumber(columnTitle.Substring(0, columnTitle.Length - 1)) * 26 + (columnTitle[columnTitle.Length - 1] - 'A' + 1);
+        }
         public string ConvertToTitle(int columnNumber)
         {
             return columnNumber == 0 ? "" : ConvertToTitle((columnNumber - 1) / 26) + (char)('A' + (columnNumber - 1) % 26);
