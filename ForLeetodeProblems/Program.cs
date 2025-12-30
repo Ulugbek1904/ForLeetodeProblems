@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace ForLeetodeProblems
 {
@@ -74,6 +76,105 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int LongestPalindrome(string s)
+        {
+            int[] charCnt = new int[128];
+            foreach (char c in s)
+            {
+                charCnt[c - 'a']++;
+            }
+
+            int length = 0;
+            foreach (int cnt in charCnt)
+            {
+                length += (cnt / 2) * 2;
+                if (length % 2 == 0 && cnt % 2 == 1)
+                {
+                    length++;
+                }
+            }
+
+            return length;
+        }
+        public bool IsSubsequence(string s, string t)
+        {
+            int sIndex = 0;
+            int tIndex = 0;
+            while (sIndex < s.Length && tIndex < t.Length)
+            {
+                if (s[sIndex] == t[tIndex])
+                {
+                    if(tIndex == t.Length -1)
+                    {
+                        return true;
+                    }
+                    sIndex++;
+                }
+                tIndex++;
+            }
+            return sIndex == s.Length;
+        }
+        public char FindTheDifference(string s, string t)
+        {
+            int[] charCnt = new int[26];
+
+            foreach (char c in s)
+            {
+                charCnt[c - 'a']++;
+            }
+
+            foreach(char c in t)
+            {
+                charCnt[c - 'a']--;
+                if (charCnt[c - 'a'] < 0)
+                    return c;
+            }
+
+            return ' ';
+        }
+        public int FirstUniqChar(string s)
+        {
+            int[] charCount = new int[26];
+
+            foreach (char c in s)
+            {
+                charCount[c - 'a']++;
+            }
+
+            for(int i = 0; i <s.Length; i++)
+            {
+                if (charCount[s[i] - 'a'] == 1)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public bool CanConstruct(string ransomNote, string magazine)
+        {
+            var charCount = new Dictionary<char, int>();
+            foreach(char c in magazine)
+            {
+                if (charCount.ContainsKey(c))
+                {
+                    charCount[c]++;
+                }
+                else
+                {
+                    charCount[c] = 1;
+                }
+            }
+            foreach(char c in ransomNote)
+            {
+                if (!charCount.ContainsKey(c) || charCount[c] == 0)
+                {
+                    return false;
+                }
+                charCount[c]--;
+            }
+
+            return true;
+        }
         public bool WordPattern(string pattern, string s)
         {
             var words = s.Split(' ');
