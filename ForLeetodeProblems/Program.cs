@@ -16,7 +16,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.ConvertToTitle(23));
+            Console.WriteLine(solution.AddStrings("11", "121"));
         }
     }
 
@@ -76,6 +76,174 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int[] NumberOfLines(int[] widths, string s)
+        {
+            int linesCnt = 1;
+            int width = 0;
+            foreach (var c in s)
+            {
+                int w = widths[c - 'a'];
+                if (width + w > 100)
+                {
+                    linesCnt++;
+                    width = w;
+                }
+                else
+                {
+                    width += w;
+                }
+            }
+
+            return new int[] { linesCnt, width }; 
+        }
+        public string ShortestCompletingWord(string licensePlate, string[] words)
+        {
+            var arr = new int[26];
+            foreach (var c in licensePlate)
+            {
+                if (char.IsLetter(c))
+                {
+                    arr[char.ToLower(c) - 'a']++;
+                }
+            }
+
+            string result = null;
+            foreach (var word in words)
+            {
+                var arrCopy = (int[])arr.Clone();
+                foreach (var c in word)
+                {
+                    arrCopy[char.ToLower(c) - 'a']--;
+
+                    if (arrCopy.All(x => x <= 0))
+                    {
+                        if (result == null || word.Length < result.Length)
+                        {
+                            result = word;
+                        }
+                    }
+                }
+            }
+
+            return result!;
+        }
+        public bool CheckRecord(string s)
+        {
+            int aCnt = 0;
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == 'A')
+                {
+                    aCnt++;
+                    if (aCnt >= 2)
+                        return false;
+                }
+                if (i >= 2 && s[i] == 'L' && s[i - 1] == 'L' && s[i - 2] == 'L')
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        public bool DetectCapitalUse(string word)
+        {
+            if (string.IsNullOrEmpty(word))
+                return true;
+            bool isFirstUpper = char.IsUpper(word[0]);
+            bool isAllUpper = true;
+            bool isAllLower = true;
+            for (int i = 1; i < word.Length; i++)
+            {
+                if (char.IsUpper(word[i]))
+                    isAllLower = false;
+                else
+                    isAllUpper = false;
+            }
+            return (isFirstUpper && (isAllUpper || isAllLower)) || (!isFirstUpper && isAllLower);
+        }
+        public string ConvertToBase7(int num)
+        {
+            if (num == 0) return "0";
+            bool isNegative = num < 0;
+            num = Math.Abs(num);
+            StringBuilder sb = new StringBuilder();
+            while (num > 0)
+            {
+                sb.Insert(0, (num % 7).ToString());
+                num /= 7;
+            }
+            if (isNegative)
+                sb.Insert(0, '-');
+            return sb.ToString();
+        }
+
+        public char RepeatedCharacter(string s)
+        {
+            var arr = new int[26];
+            foreach (var c in s)
+            {
+                arr[c - 'a']++;
+                if (arr[c - 'a'] == 2)
+                    return c;
+            }
+            return ' ';
+        }
+        public string LicenseKeyFormatting(string s, int k)
+        {
+            var sb = new StringBuilder();
+            int count = 0;
+            for (int i = s.Length - 1; i >= 0; i--)
+            {
+                if (s[i] != '-')
+                {
+                    if (count == k)
+                    {
+                        sb.Insert(0, '-');
+                        count = 0;
+                    }
+                    sb.Insert(0, char.ToUpper(s[i]));
+                    count++;
+                }
+            }
+
+            return sb.ToString();
+        }
+        public int CountSegments(string s)
+        {
+            var array = s.Split(' ');
+            var count = 0;
+            foreach (var str in array)
+            {
+                if (!string.IsNullOrEmpty(str))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public string AddStrings(string num1, string num2)
+        {
+            StringBuilder sb = new StringBuilder();
+            int i = num1.Length - 1;
+            int j = num2.Length - 1;
+
+            int carry = 0;
+            while (i >= 0 || j >= 0 || carry > 0)
+            {
+                int sum = carry;
+                if (i >= 0)
+                    sum += num1[i--] - '0';
+
+                if (j >= 0)
+                    sum += num2[j--] - '0';
+
+                sb.Insert(0, (sum % 10).ToString());
+                carry = sum / 10;
+            }
+            return sb.ToString();
+        }
         public int LongestPalindrome(string s)
         {
             int[] charCnt = new int[128];
@@ -2496,25 +2664,6 @@ namespace ForLeetodeProblems
             }
 
             return result;
-        }
-        public bool ContainsNearbyDuplicate(int[] nums, int k)
-        {
-            bool ans = false;
-            int right = 0;
-            for(int i = 0; i < nums.Length; i++)
-            {
-                while (right < nums.Length && right - i <= k)
-                {
-                    if (nums[i] == nums[right] && i != right)
-                    {
-                        ans = true;
-                        break;
-                    }
-                    right++;
-                }
-            }
-
-            return ans;
         }
 
         public int LengthOfLongestSubstring(string s)
