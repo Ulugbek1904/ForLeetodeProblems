@@ -76,6 +76,94 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public IList<string> StringSequence(string target)
+        {
+            var res = new List<string>();
+            for (int i = 0; i < target.Length; i++)
+            {
+                char c = 'a';
+                var curr = new StringBuilder("");
+
+                if (i >= 1)
+                    curr.Append(target.Substring(0, i));
+                while (c != target[i])
+                {
+                    res.Add(curr + c.ToString());
+                    c = (char)(c + 1);
+                }
+                curr.Append(target[i]);
+                res.Add(curr.ToString());
+            }
+
+            return res;
+        }
+        public string[] SortPeople(string[] names, int[] heights)
+            {
+                var nameHPairs = new List<(string name, int height)>();
+                for (int i = 0; i < names.Length; i++)
+                {
+                    nameHPairs.Add((names[i], heights[i]));
+                }
+
+                Array.Sort(heights, names);
+
+            return nameHPairs.OrderByDescending(v => v.height)
+                    .Select(k => k.name).ToArray();
+            }
+        public int GarbageCollection(string[] garbage, int[] travel)
+        {
+            int MCnt = 0, PCnt = 0, GCnt = 0;
+            int MLast = -1, PLast = -1, GLast = -1;
+            for(int i =0; i < garbage.Length; i++)
+            {
+                foreach (var c in garbage[i])
+                {
+                    if (c == 'M')
+                    {
+                        MCnt++;
+                        MLast = i;
+                    }
+                    else if (c == 'P')
+                    {
+                        PCnt++;
+                        PLast = i;
+                    }
+                    else if (c == 'G')
+                    {
+                        GCnt++;
+                        GLast = i;
+                    }
+                }
+            }
+            int res = MCnt + PCnt + GCnt;
+            for(int i =0; i < travel.Length; i++)
+            {
+                if (i < MLast)
+                    res += travel[i];
+                if (i < PLast)
+                    res += travel[i];
+                if (i < GLast)
+                    res += travel[i];
+            }
+
+            return res;
+        }
+        public string ReversePrefix(string s, int k)
+        {
+            var sb = new StringBuilder(s);
+            int left = 0;
+            int right = k - 1;
+            while (left < right)
+            {
+                char temp = sb[left];
+                sb[left] = sb[right];
+                sb[right] = temp;
+                left++;
+                right--;
+            }
+
+            return sb.ToString();
+        }
         public int[] ShortestToChar(string s, char c)
         {
             var ans = new int[s.Length];
