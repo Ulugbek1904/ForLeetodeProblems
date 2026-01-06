@@ -16,7 +16,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.AddStrings("11", "121"));
+            Console.WriteLine(solution.ShortestToChar("loveleetcode", 'e'));
         }
     }
 
@@ -76,6 +76,73 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int[] ShortestToChar(string s, char c)
+        {
+            var ans = new int[s.Length];
+            int leftC = 0;
+            int rightC = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == c)
+                {
+                    leftC = i;
+                    rightC = i+1;
+                }
+                else
+                {
+                    while (rightC < s.Length && s[rightC] != c)
+                    {
+                        rightC++;
+                    }
+                    int leftDist = leftC == 0 && s[0] != c ? int.MaxValue : Math.Abs(i - leftC);
+                    int rightDist = rightC == s.Length ? int.MaxValue : Math.Abs(rightC - i);
+                    ans[i] = Math.Min(leftDist, rightDist);
+                }
+            }
+
+            return ans;
+        }
+        public string MostCommonWord(string paragraph, string[] banned)
+        {
+            var wordCount = new Dictionary<string, int>();
+            char[] separator = new char[] { ' ', '.' };
+            var words = paragraph.ToLower().Split(separator);
+            char[] trimChars = new char[] { '!', '?', '\'', ',', ';', '.' };
+            foreach ( var word in words)
+            { 
+                string cleanedWord = word.TrimEnd(trimChars);
+
+                if (string.IsNullOrEmpty(cleanedWord) || banned.Contains(cleanedWord))
+                    continue;
+
+                if (!wordCount.ContainsKey(cleanedWord))
+                    wordCount[cleanedWord] = 0;
+                wordCount[cleanedWord]++;
+            }
+
+            return wordCount.OrderByDescending(kvp => kvp.Value).First().Key;
+        }
+        public long MaxMatrixSum(int[][] matrix)
+        {
+            long sum = 0;
+            int minAbs = int.MaxValue;
+            int negativeCount = 0;
+            foreach (var row in matrix)
+            {
+                foreach (var num in row)
+                {
+                    int absNum = Math.Abs(num);
+                    sum += absNum;
+                    minAbs = Math.Min(minAbs, absNum);
+                    if (num < 0)
+                        negativeCount++;
+                }
+            }
+            if (negativeCount % 2 == 1)
+                sum -= 2 * minAbs;
+
+            return sum;
+        }
         public int[] NumberOfLines(int[] widths, string s)
         {
             int linesCnt = 1;
