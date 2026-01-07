@@ -76,6 +76,101 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public bool IsAcronym(IList<string> words, string s)
+        {
+            int n = s.Length;
+            if (words.Count != n)
+                return false;
+            for (int i = 0; i < n; i++)
+            {
+                if (s[i] != words[i][0])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        public int CanBeTypedWords(string text, string brokenLetters)
+        {
+            var words = text.Split(' ');
+            var brokenset = new HashSet<char>(brokenLetters);
+            int count = 0;
+            foreach (var word in words)
+            {
+                if(!word.Any(c => brokenset.Contains(c)))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public string StringHash(string s, int k) //"hcr" 2 + 7 + 17
+        {
+            int n = s.Length;
+            var sb = new StringBuilder();
+            for(int i = 0; i < n/k; i++)
+            {
+                int start = i * k;
+                int end = start + k - 1;
+                int sum = 0;
+                for(int j = start; j <= end; j++)
+                {
+                    sum += (s[j] - 'a');
+                }
+                if(sum == 0)
+                {
+                    sb.Append('a');
+                    continue;
+                }
+                int ch = (sum % 26 == 0) ? 0 : sum % 26;
+                sb.Append((char)('a' + ch));
+            }
+
+            return sb.ToString();
+        }
+
+        public string SortSentence(string s)
+        {
+            var arr = s.Split(' ');
+            var result = new string[arr.Length];
+            foreach (var word in arr)
+            {
+                int index = word[word.Length - 1] - '1';
+                result[index] = word.Substring(0, word.Length - 1);
+            }
+
+            return string.Join(" ", result);
+        }
+        public bool CheckIfPangram(string sentence)
+        {
+            var charSet = new HashSet<char>();
+            foreach(var c in sentence)
+            {
+                charSet.Add(c);
+            }
+
+            return charSet.Count == 26;
+        }
+
+        public IList<string> CellsInRange(string s)
+        {
+            var result = new List<string>();
+
+            char startCol = s[0];
+            char endCol = s[3];
+            char startRow = s[1];
+            char endRow = s[4];
+            for (char col = startCol; col <= endCol; col++)
+            {
+                for (char row = startRow; row <= endRow; row++)
+                {
+                    result.Add($"{col}{row}");
+                }
+            }
+
+            return result;
+        }
         public IList<string> StringSequence(string target)
         {
             var res = new List<string>();
