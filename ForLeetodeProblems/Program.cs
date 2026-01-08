@@ -16,7 +16,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.ShortestToChar("loveleetcode", 'e'));
+            Console.WriteLine(solution.ExecuteInstructions(3, [0, 1], "RRDDLU"));
         }
     }
 
@@ -76,6 +76,84 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public IList<int> PartitionLabels(string s)
+        {
+            var result = new List<int>();
+            var charSet = new Dictionary<char, List<int>>();
+            for(int i=0; i< s.Length; i++)
+            {
+                if (charSet.ContainsKey(s[i]))
+                    charSet[s[i]].Add(i);
+                else
+                    charSet[s[i]] = new List<int> { 1 };
+            }
+
+
+        }
+        public int[] ExecuteInstructions(int n, int[] startPos, string s)
+        {
+            var res = new int[s.Length];
+            int left = 0;
+            while (left < s.Length)
+            {
+                int row = startPos[0];
+                int col = startPos[1];
+                int count = 0;
+                for(int i = left; i < s.Length; i++)
+                {
+                    switch (s[i])
+                    {
+                        case 'U':
+                            row--;
+                            break;
+                        case 'D':
+                            row++;
+                            break;
+                        case 'R':
+                            col++;
+                            break;
+                        case 'L':
+                            col--;
+                            break;
+                    }
+                    if(row >= 0 && col >= 0 && row < n && col < n)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                res[left] = count;
+                left++;
+            }
+
+            return res;
+        }
+        public string KthDistinct(string[] arr, int k)
+        {
+            var dic = new Dictionary<string, int>();
+            foreach (string s in arr)
+            {
+                if (dic.ContainsKey(s))
+                {
+                    dic[s]++;
+                }
+                else
+                {
+                    dic[s] = 1;
+                }
+            }
+
+            var res = dic.Where(d => d.Value == 1)
+                .Select(d => d.Key).ToList();
+
+            if (res.Count < k)
+                return "";
+
+            return res[k-1];
+        }
         public bool IsAcronym(IList<string> words, string s)
         {
             int n = s.Length;
