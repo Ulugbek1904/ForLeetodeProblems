@@ -16,7 +16,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.ExecuteInstructions(3, [0, 1], "RRDDLU"));
+            Console.WriteLine(solution.AreOccurrencesEqual("aaabb"));
         }
     }
 
@@ -307,7 +307,7 @@ namespace ForLeetodeProblems
         //    }
 
 
-        //}
+        }
         public int[] ExecuteInstructions(int n, int[] startPos, string s)
         {
             var res = new int[s.Length];
