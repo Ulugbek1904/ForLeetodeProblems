@@ -76,20 +76,123 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
-        public IList<int> PartitionLabels(string s)
+        public IList<string> SplitWordsBySeparator(IList<string> words, char separator)
         {
-            var result = new List<int>();
-            var charSet = new Dictionary<char, List<int>>();
-            for(int i=0; i< s.Length; i++)
+            var result = new List<string>();
+            foreach (var word in words)
             {
-                if (charSet.ContainsKey(s[i]))
-                    charSet[s[i]].Add(i);
-                else
-                    charSet[s[i]] = new List<int> { 1 };
+                var splitWords = word.Split(separator);
+                foreach (var splitWord in splitWords)
+                {
+                    if (!string.IsNullOrEmpty(splitWord))
+                    {
+                        result.Add(splitWord);
+                    }
+                }
+
+            }
+            return result;
+        }
+        public IList<IList<string>> DisplayTable(IList<IList<string>> orders)
+        {
+            var result = new List<IList<string>>();
+            var tableSet = new SortedSet<int>();
+            var foodSet = new SortedSet<string>(StringComparer.Ordinal);
+
+            var tableFoodCount = new Dictionary<int, Dictionary<string, int>>();
+            foreach (var order in orders)
+            {
+                int tableNum = int.Parse(order[1]);
+                string foodItem = order[2];
+                tableSet.Add(tableNum);
+                foodSet.Add(foodItem);
+                if (!tableFoodCount.ContainsKey(tableNum))
+                {
+                    tableFoodCount[tableNum] = new Dictionary<string, int>();
+                }
+                if (!tableFoodCount[tableNum].ContainsKey(foodItem))
+                {
+                    tableFoodCount[tableNum][foodItem] = 0;
+                }
+                tableFoodCount[tableNum][foodItem]++;
+            }
+            var header = new List<string> { "Table" };
+            header.AddRange(foodSet);
+            result.Add(header);
+            foreach (var tableNum in tableSet)
+            {
+                var row = new List<string> { tableNum.ToString() };
+                foreach (var foodItem in foodSet)
+                {
+                    int count = 0;
+                    if (tableFoodCount[tableNum].ContainsKey(foodItem))
+                    {
+                        count = tableFoodCount[tableNum][foodItem];
+                    }
+                    row.Add(count.ToString());
+                }
+                result.Add(row);
             }
 
-
+            return result;
         }
+        public IList<string> FindAndReplacePattern(string[] words, string pattern)
+        {
+            var result = new List<string>();
+
+            foreach(var word in words)
+            {
+                if (IsMatch2(word, pattern))
+                {
+                    result.Add(word);
+                }
+            }
+
+            return result;
+        }
+        public bool IsMatch2(string word, string pattern)
+        {
+            var mapWtoP = new Dictionary<char, char>();
+            var mapPtoW = new Dictionary<char, char>();
+            for (int i = 0; i < word.Length; i++)
+            {
+                char wChar = word[i];
+                char pChar = pattern[i];
+                if (mapWtoP.ContainsKey(wChar))
+                {
+                    if (mapWtoP[wChar] != pChar)
+                        return false;
+                }
+                else
+                {
+                    mapWtoP[wChar] = pChar;
+                }
+                if (mapPtoW.ContainsKey(pChar))
+                {
+                    if (mapPtoW[pChar] != wChar)
+                        return false;
+                }
+                else
+                {
+                    mapPtoW[pChar] = wChar;
+                }
+            }
+            return true;
+        }
+        //public IList<int> PartitionLabels(string s)
+        //{
+        //    var result = new List<int>();
+        //    var charSet = new Dictionary<char, List<int>>();
+        //    for(int i=0; i< s.Length; i++)
+        //    {
+        //        if (charSet.ContainsKey(s[i]))
+        //            charSet[s[i]].Add(i);
+        //        else
+        //            charSet[s[i]] = new List<int> { 1 };
+        //    }
+
+
+        //}
         public int[] ExecuteInstructions(int n, int[] startPos, string s)
         {
             var res = new int[s.Length];
