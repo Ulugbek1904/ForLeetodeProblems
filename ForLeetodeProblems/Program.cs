@@ -76,6 +76,86 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int[] PlusOne(int[] digits)
+        {
+            var n = digits.Length;
+            for (int i = n - 1; i >= 0; i--)
+            {
+                if (digits[i] < 9)
+                {
+                    digits[i]++;
+                    return digits;
+                }
+                digits[i] = 0;
+            }
+            var result = new int[n + 1];
+            result[0] = 1;
+            return result;
+        }
+        public int LargestMagicSquare(int[][] grid)
+        {
+            int max = 0;
+            int m = grid.Length;
+            int n = grid[0].Length;
+            for (int size = 1; size <= Math.Min(m, n); size++)
+            {
+                for (int i = 0; i <= m - size; i++)
+                {
+                    for (int j = 0; j <= n - size; j++)
+                    {
+                        if (IsMagicSquare(grid, i, j, size))
+                        {
+                            max = Math.Max(max, size);
+                        }
+                    }
+                }
+            }
+
+            return max;
+        }
+        public bool IsMagicSquare(int[][] grid, int row, int col, int size)
+        {
+            int targetSum = 0;
+            for (int j = col; j < col + size; j++)
+            {
+                targetSum += grid[row][j];
+            }
+            for (int i = row; i < row + size; i++)
+            {
+                int rowSum = 0;
+                for (int j = col; j < col + size; j++)
+                {
+                    rowSum += grid[i][j];
+                }
+                if (rowSum != targetSum)
+                    return false;
+            }
+            for (int j = col; j < col + size; j++)
+            {
+                int colSum = 0;
+                for (int i = row; i < row + size; i++)
+                {
+                    colSum += grid[i][j];
+                }
+                if (colSum != targetSum)
+                    return false;
+            }
+            int diag1Sum = 0;
+            for (int i = 0; i < size; i++)
+            {
+                diag1Sum += grid[row + i][col + i];
+            }
+            if (diag1Sum != targetSum)
+                return false;
+            int diag2Sum = 0;
+            for (int i = 0; i < size; i++)
+            {
+                diag2Sum += grid[row + i][col + size - 1 - i];
+            }
+            if (diag2Sum != targetSum)
+                return false;
+            return true;
+        }
         public IList<string> SplitWordsBySeparator(IList<string> words, char separator)
         {
             var result = new List<string>();
