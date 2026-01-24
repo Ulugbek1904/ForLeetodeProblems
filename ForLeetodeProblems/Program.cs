@@ -76,6 +76,19 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int MinPairSum(int[] nums)
+        {
+            int maxSum = 0;
+            Array.Sort(nums);
+            int n = nums.Length;
+            for(int i = 0; i < n / 2; i++)
+            {
+                int pairSum = nums[i] + nums[n - 1 - i];
+                maxSum = Math.Max(maxSum, pairSum);
+            }
+
+            return maxSum;
+        }
         public int[] PlusOne(int[] digits)
         {
             var n = digits.Length;
