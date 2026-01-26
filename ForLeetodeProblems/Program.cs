@@ -76,6 +76,28 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public IList<IList<int>> MinimumAbsDifference(int[] arr)
+        {
+            var result = new List<IList<int>>();
+            Array.Sort(arr);
+            int minDiff = int.MaxValue;
+            for (int i = 1; i < arr.Length; i++)
+            {
+                int diff = arr[i] - arr[i - 1];
+                if (diff < minDiff)
+                {
+                    minDiff = diff;
+                    result.Clear();
+                    result.Add(new List<int> { arr[i - 1], arr[i] });
+                }
+                else if (diff == minDiff)
+                {
+                    result.Add(new List<int> { arr[i - 1], arr[i] });
+                }
+            }
+
+            return result;
+        }
         public int MinPairSum(int[] nums)
         {
             int maxSum = 0;
