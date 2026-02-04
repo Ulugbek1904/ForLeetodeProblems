@@ -16,7 +16,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.AreOccurrencesEqual("aaabb"));
+            Console.WriteLine(solution.CountPrefixSuffixPairs(["a", "aba", "ababa", "aa"]));
         }
     }
 
@@ -76,7 +76,37 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
-        public IList<IList<int>> MinimumAbsDifference(int[] arr)
+        public int CountPrefixSuffixPairs(string[] words)
+        {
+            int cnt = 0;
+            for(int i = 0; i < words.Length; i++)
+            {
+                for(int j = i+1; j < words.Length; j++)
+                {
+                    if (isPrefixAndSuffix(words[i], words[j]))
+                        cnt++;
+                }
+            }
+
+            return cnt;
+        }
+
+        public bool isPrefixAndSuffix(string str1, string str2)
+        {
+            int len1 = str1.Length;
+            int len2 = str2.Length;
+
+            if(len1 > len2) return false;
+
+            for(int i = 0; i < len1; i++)
+            {
+                if(str1[i] != str2[i] || str1[i] != str2[len2-len1+i])
+                    return false;
+            }
+
+            return true;
+        }
+        public int MinTimeToVisitAllPoints(int[][] points)
         {
             var result = new List<IList<int>>();
             Array.Sort(arr);
