@@ -76,6 +76,31 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public string GreatestLetter(string s)
+        {
+            var res = string.Empty;
+            if (string.IsNullOrEmpty(s))
+            {
+                return res;
+            }
+            var charSet = new HashSet<char>(s);
+            foreach (var c in charSet)
+            {
+                if (char.IsLower(c))
+                {
+                    char upperC = char.ToUpper(c);
+                    if (charSet.Contains(upperC))
+                    {
+                        if (string.IsNullOrEmpty(res) || upperC > res[0])
+                        {
+                            res = upperC.ToString();
+                        }
+                    }
+                }
+            }
+
+            return res;
+        }
         public int CountPrefixSuffixPairs(string[] words)
         {
             int cnt = 0;
