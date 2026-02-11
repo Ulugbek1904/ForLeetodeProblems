@@ -7,6 +7,7 @@ using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ForLeetodeProblems
@@ -76,6 +77,143 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int AppendCharacters(string s, string t)
+        {
+            int tIndex = 0;
+            for (int i = 0; i < s.Length && tIndex < t.Length; i++)
+            {
+                if (s[i] == t[tIndex])
+                {
+                    tIndex++;
+                }
+            }
+
+            return t.Length - tIndex;
+        }
+
+        public int AddMinimum(string word)
+        {
+            int ans = 0;
+            int l = word.Length;
+
+            var twoValid = new HashSet<string> { "ab", "bc", "ac" };
+
+            for (int i =0; i < l; i++)
+            {
+                var ch = word[i];
+
+                if( i < l-2 && word.Substring(i, 3) == "abc")
+                {
+                    i += 2;
+                }
+                else if (i < l-1 && twoValid.Contains(word.Substring(i, 2)))
+                {
+                    ans++;
+                    i++;
+                }
+                else
+                {
+                    ans += 2;
+                }
+            }
+
+            return ans;
+        }
+        public int MinimumMoves(string s)
+        {
+            int moves = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == 'X')
+                {
+                    moves++;
+                    i += 2;
+                }
+            }
+            return moves;
+        }
+
+        public string GenerateTag(string caption)
+        {
+            var sb = new StringBuilder();
+            sb.Append("#");
+
+            var arr = caption.Split(new char[] {' ' },
+                StringSplitOptions.RemoveEmptyEntries);
+
+            for(int i = 0; i < arr.Length; i++)
+            {
+                if(i == 0)
+                {
+                    sb.Append(char.ToLower(arr[i][0]));
+                    for (int j = 1; j < arr[i].Length; j++)
+                    {
+                        if (char.IsLetter(arr[i][j]) && sb.Length < 100)
+                            sb.Append(char.ToLower(arr[i][j]));
+                    }
+                }
+                else if(sb.Length < 100)
+                {
+                    sb.Append(char.ToUpper(arr[i][0]));
+                    for (int j = 1; j < arr[i].Length; j++)
+                    {
+                        if(char.IsLetter(arr[i][j]) && sb.Length < 100)
+                            sb.Append(char.ToLower(arr[i][j]));
+                    }
+                }                
+            }
+
+            return sb.ToString();
+        }
+        public string RepeatLimitedString(string s, int repeatLimit)
+        {
+            string result = string.Empty;
+            if (string.IsNullOrEmpty(s))
+            {
+                return result;
+            }
+            var charCount = new Dictionary<char, int>();
+            foreach (var c in s)
+            {
+                if (charCount.ContainsKey(c))
+                {
+                    charCount[c]++;
+                }
+                else
+                {
+                    charCount[c] = 1;
+                }
+            }
+            var charSet = new SortedSet<char>(charCount.Keys, Comparer<char>.Create((a, b) => b.CompareTo(a)));
+            while (charSet.Count > 0)
+            {
+                char c = charSet.First();
+                int count = charCount[c];
+                int useCount = Math.Min(count, repeatLimit);
+                result += new string(c, useCount);
+                charCount[c] -= useCount;
+                if (charCount[c] == 0)
+                {
+                    charSet.Remove(c);
+                }
+                else
+                {
+                    if (charSet.Count == 1)
+                    {
+                        break;
+                    }
+                    char nextC = charSet.Skip(1).First();
+                    result += nextC;
+                    charCount[nextC]--;
+                    if (charCount[nextC] == 0)
+                    {
+                        charSet.Remove(nextC);
+                    }
+                }
+            }
+            return result;
+        }
+
         public string GreatestLetter(string s)
         {
             var res = string.Empty;
@@ -131,28 +269,28 @@ namespace ForLeetodeProblems
 
             return true;
         }
-        public int MinTimeToVisitAllPoints(int[][] points)
-        {
-            var result = new List<IList<int>>();
-            Array.Sort(arr);
-            int minDiff = int.MaxValue;
-            for (int i = 1; i < arr.Length; i++)
-            {
-                int diff = arr[i] - arr[i - 1];
-                if (diff < minDiff)
-                {
-                    minDiff = diff;
-                    result.Clear();
-                    result.Add(new List<int> { arr[i - 1], arr[i] });
-                }
-                else if (diff == minDiff)
-                {
-                    result.Add(new List<int> { arr[i - 1], arr[i] });
-                }
-            }
+        //public int MinTimeToVisitAllPoints(int[][] points)
+        //{
+        //    var result = new List<IList<int>>();
+        //    Array.Sort(arr);
+        //    int minDiff = int.MaxValue;
+        //    for (int i = 1; i < arr.Length; i++)
+        //    {
+        //        int diff = arr[i] - arr[i - 1];
+        //        if (diff < minDiff)
+        //        {
+        //            minDiff = diff;
+        //            result.Clear();
+        //            result.Add(new List<int> { arr[i - 1], arr[i] });
+        //        }
+        //        else if (diff == minDiff)
+        //        {
+        //            result.Add(new List<int> { arr[i - 1], arr[i] });
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
         public int MinPairSum(int[] nums)
         {
             int maxSum = 0;
@@ -362,7 +500,7 @@ namespace ForLeetodeProblems
         //    }
 
 
-        }
+        //}
         public int[] ExecuteInstructions(int n, int[] startPos, string s)
         {
             var res = new int[s.Length];
