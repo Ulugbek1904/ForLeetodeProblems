@@ -77,6 +77,46 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int LongestBalanced(string s)
+        {
+            int maxLength = 0;
+            for(int i =0; i <s.Length; i++)
+            {
+                var Counts = new int[26];
+                for(int j = i; j <s.Length; j++)
+                {
+                    Counts[s[j] - 'a']++;
+                    if(IsBalanced(Counts))
+                    {
+                        maxLength = Math.Max(maxLength, j - i + 1);
+                    }
+                }
+            }
+
+            return maxLength;
+        }
+        
+        private bool IsBalanced(int[] Counts)
+        {
+            int freq =0;
+            foreach(var count in Counts)
+            {
+                if(count == 0)
+                {
+                    continue;
+                }
+                if (freq == 0)
+                {
+                    freq = count;
+                }
+                else if (count != freq)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
         public int AppendCharacters(string s, string t)
         {
             int tIndex = 0;
