@@ -77,7 +77,59 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
-        public int LongestBalanced(string s)
+        public bool IsRobotBounded(string instructions)
+        {
+            var directions = new int[][] { new int[] { 0, 1 }, new int[] { 1, 0 }, new int[] { 0, -1 }, new int[] { -1, 0 } };
+            int x = 0, y = 0, dir = 0;
+            foreach (var instruction in instructions)
+            {
+                if (instruction == 'G')
+                {
+                    x += directions[dir][0];
+                    y += directions[dir][1];
+                }
+                else if (instruction == 'L')
+                {
+                    dir = (dir + 3) % 4;
+                }
+                else if (instruction == 'R')
+                {
+                    dir = (dir + 1) % 4;
+                }
+            }
+
+            return (x == 0 && y == 0) || dir != 0;
+        }
+
+        public int[] CountPoints(int[][] points, int[][] queries)
+        {
+            var ans = new int[queries.Length];
+            for (int i = 0; i < queries.Length; i++)
+            {
+                int count = 0;
+                int x = queries[i][0];
+                int y = queries[i][1];
+                int r = queries[i][2];
+                for (int j = 0; j < points.Length; j++)
+                {
+                    int px = points[j][0];
+                    int py = points[j][1];
+                    if ((px - x) * (px - x) + (py - y) * (py - y) <= r * r)
+                    {
+                        count++;
+                    }
+                }
+                ans[i] = count;
+            }
+
+            return ans;
+        }
+
+        public int MirrorDistance(int n)
+        {
+            return Math.Abs(n - Reverse(n));
+        }
+        public int LongestBalanced2(string s)
         {
             int maxLength = 0;
             for(int i =0; i <s.Length; i++)
@@ -5141,8 +5193,8 @@ namespace ForLeetodeProblems
             int reversedNumber = 0;
             while (x != 0)
             {
-                if (reversedNumber > int.MaxValue /10 || reversedNumber < int.MinValue / 10)
-                    return 0;
+                //if (reversedNumber > int.MaxValue /10 || reversedNumber < int.MinValue / 10)
+                //    return 0;
                 int restDigit = x % 10;
                 reversedNumber = reversedNumber * 10 + restDigit;
                 x /= 10;
