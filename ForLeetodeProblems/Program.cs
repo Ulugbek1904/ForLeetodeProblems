@@ -77,6 +77,28 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int CountHomogenous(string s)
+        {
+            int mod = 1000000007;
+            long count = 1;
+            long result = 0;
+            for (int i = 1; i < s.Length; i++)
+            {
+                if (s[i] == s[i - 1])
+                {
+                    count++;
+                }
+                else
+                {
+                    result = (result + count * (count + 1) / 2) % mod;
+                    count = 1;
+                }
+            }
+
+            result = (result + count * (count + 1) / 2) % mod;
+
+            return (int)result;
+        }
         public bool IsRobotBounded(string instructions)
         {
             var directions = new int[][] { new int[] { 0, 1 }, new int[] { 1, 0 }, new int[] { 0, -1 }, new int[] { -1, 0 } };
