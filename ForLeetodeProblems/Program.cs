@@ -77,27 +77,128 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
-        public int CountHomogenous(string s)
+        public int TriangularSum(int[] nums)
         {
-            int mod = 1000000007;
-            long count = 1;
-            long result = 0;
-            for (int i = 1; i < s.Length; i++)
+            int n = nums.Length;
+            int sum = 0;
+
+            for(int size =n; size > 1; size--)
             {
-                if (s[i] == s[i - 1])
+                for(int i = 0; i < size - 1; i++)
                 {
-                    count++;
-                }
-                else
-                {
-                    result = (result + count * (count + 1) / 2) % mod;
-                    count = 1;
+                    sum = (nums[i] + nums[i + 1]) % 10;
+                    nums[i] = sum;
                 }
             }
 
-            result = (result + count * (count + 1) / 2) % mod;
+            return sum;
+        }
 
-            return (int)result;
+        public int NumSpecial(int[][] mat)
+        {
+            int count = 0;
+            int m = mat.Length;
+            int n = mat[0].Length;
+
+            var rowCnt = new int[m];
+            var colCnt = new int[n];
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (mat[i][j] == 1)
+                    {
+                        rowCnt[i]++;
+                        colCnt[j]++;
+                    }
+                }
+            }
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (mat[i][j] == 1 && rowCnt[i] == 1 && colCnt[j] == 1)
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        public int ConvertTime(string current, string correct)
+        {
+            var currentParts = current.Split(':');
+            var correctParts = correct.Split(':');
+            int currentHour = int.Parse(currentParts[0]);
+            int currentMinute = int.Parse(currentParts[1]);
+            int correctHour = int.Parse(correctParts[0]);
+            int correctMinute = int.Parse(correctParts[1]);
+            int currentTotalMinutes = currentHour * 60 + currentMinute;
+            int correctTotalMinutes = correctHour * 60 + correctMinute;
+            int diff = correctTotalMinutes - currentTotalMinutes;
+            int operations = 0;
+            while (diff > 0)
+            {
+                if (diff >= 60)
+                {
+                    diff -= 60;
+                }
+                else if (diff >= 15)
+                {
+                    diff -= 15;
+                }
+                else if (diff >= 5)
+                {
+                    diff -= 5;
+                }
+                else
+                {
+                    diff -= 1;
+                }
+                operations++;
+            }
+            return operations;
+        }
+
+        public int ReverseBits(int n)
+        {
+            int result = 0;
+            for (int i = 0; i < 32; i++)
+            {
+                result <<= 1;
+                result |= (n & 1);
+                n >>= 1;
+            }
+            return result;
+        }
+        public bool UniqueOccurrences(int[] arr)
+        {
+            var countMap = new Dictionary<int, int>();
+            foreach (var num in arr)
+            {
+                if (countMap.ContainsKey(num))
+                {
+                    countMap[num]++;
+                }
+                else
+                {
+                    countMap[num] = 1;
+                }
+            }
+            var occurrenceSet = new HashSet<int>();
+            foreach (var count in countMap.Values)
+            {
+                if (occurrenceSet.Contains(count))
+                {
+                    return false;
+                }
+                occurrenceSet.Add(count);
+            }
+            return true;
         }
         public bool IsRobotBounded(string instructions)
         {
