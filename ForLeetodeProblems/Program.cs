@@ -17,7 +17,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.CountPrefixSuffixPairs(["a", "aba", "ababa", "aa"]));
+            Console.WriteLine(solution.SquareIsWhite("a1"));
         }
     }
 
@@ -77,6 +77,33 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public bool SquareIsWhite(string coordinates)
+        {
+            if (coordinates[1] % 2 == (coordinates[0] -'a') % 2)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool HasAlternatingBits(int n)// 5 -> 101
+        {
+            int bit = n % 2; // 1
+            n /= 2; // 2 -> 10
+            while(n > 0)
+            {
+                if(bit == n % 2) // 1 == 0
+                {
+                    return false;
+                }
+                bit = n % 2; // 1
+                n /= 2; // 1
+            }
+
+            return true;
+        }
+
         public int TriangularSum(int[] nums)
         {
             int n = nums.Length;
