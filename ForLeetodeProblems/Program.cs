@@ -17,7 +17,7 @@ namespace ForLeetodeProblems
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            Console.WriteLine(solution.SquareIsWhite("a1"));
+            Console.WriteLine(solution.CountBinarySubstrings("00110011"));
         }
     }
 
@@ -77,6 +77,38 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int CountBinarySubstrings(string s)
+        {
+            int count = 0;
+            int zeroCount = 0;
+            int oneCount = 0;
+            for (int i =0; i < s.Length;)
+            {
+                if(s[i] == '1')
+                {
+                    while (i < s.Length && s[i] == '1')
+                    {
+                        oneCount++;
+                        i++;
+                    }
+                    count += Math.Min(zeroCount, oneCount);
+                    zeroCount = 0;
+                }
+                else
+                {
+                    while (i < s.Length && s[i] == '0')
+                    {
+                        zeroCount++;
+                        i++;
+                    }
+                    count += Math.Min(zeroCount, oneCount);
+                    oneCount = 0;
+                }
+            }
+
+            return count;
+        }
+
         public bool SquareIsWhite(string coordinates)
         {
             if (coordinates[1] % 2 == (coordinates[0] -'a') % 2)
