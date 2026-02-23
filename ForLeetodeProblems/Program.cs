@@ -77,6 +77,46 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public bool HasAllCodes(string s, int k)
+        {
+            var distinctCodes = new HashSet<string>();
+            for (int i = 0; i <= s.Length - k; i++)
+            {
+                string code = s.Substring(i, k);
+                distinctCodes.Add(code);
+            }
+
+            return distinctCodes.Count == Math.Pow(2, k);
+        }
+
+
+        public int CountDistinctIntegers(int[] nums)
+        {
+            var set = new HashSet<int>();
+            foreach (var num in nums)
+            {
+                set.Add(num);
+                int reversed = Reverse(num);
+                set.Add(reversed);
+            }
+
+            return set.Count;
+        }
+
+        public int Reverse(int x)
+        {
+            int reversedNumber = 0;
+            while (x != 0)
+            {
+                //if (reversedNumber > int.MaxValue /10 || reversedNumber < int.MinValue / 10)
+                //    return 0;
+                int restDigit = x % 10;
+                reversedNumber = reversedNumber * 10 + restDigit;
+                x /= 10;
+            }
+
+            return reversedNumber;
+        }
         public int CountBinarySubstrings(string s)
         {
             int count = 0;
@@ -5370,20 +5410,7 @@ namespace ForLeetodeProblems
             }
         }
 
-        public int Reverse(int x) 
-        {
-            int reversedNumber = 0;
-            while (x != 0)
-            {
-                //if (reversedNumber > int.MaxValue /10 || reversedNumber < int.MinValue / 10)
-                //    return 0;
-                int restDigit = x % 10;
-                reversedNumber = reversedNumber * 10 + restDigit;
-                x /= 10;
-            }
-            
-            return reversedNumber;
-        }
+        
 
         public int StrStr(string haystack, string needle)
         {
