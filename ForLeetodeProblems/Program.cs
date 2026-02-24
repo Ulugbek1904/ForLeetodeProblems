@@ -77,6 +77,26 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public long MaxProduct(int[] nums)
+        {
+            int max1 = 0;
+            int max2 = 0;
+            foreach (var num in nums)
+            {
+                int absNum = Math.Abs(num);
+                if (absNum > max1)
+                {
+                    max2 = max1;
+                    max1 = absNum;
+                }
+                else if (absNum > max2)
+                {
+                    max2 = absNum;
+                }
+            }
+
+            return (long)max2 * max1 * 100000;
+        }
         public bool HasAllCodes(string s, int k)
         {
             var distinctCodes = new HashSet<string>();
