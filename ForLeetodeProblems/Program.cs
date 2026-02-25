@@ -77,6 +77,42 @@ namespace ForLeetodeProblems
     }
     public class Solution
     {
+        public int MinimumSum(int n, int k)
+        {
+            var used = new HashSet<int>();
+            int sum = 0;
+            int num = 1;
+            while (used.Count < n)
+            {
+                if (!used.Contains(k - num))
+                {
+                    used.Add(num);
+                    sum += num;
+                }
+                num++;
+            }
+
+            return sum;
+        }
+        public int[] SortByBits(int[] arr)
+        {
+            Array.Sort(arr);
+            var result = arr.OrderBy(n => CountBits(n)).ToArray();
+
+            return result;
+        }
+
+        private int CountBits(int n)
+        {
+            int count = 0;
+            while (n > 0)
+            {
+                count += n & 1;
+                n >>= 1;
+            }
+            return count;
+        }
+
         public long MaxProduct(int[] nums)
         {
             int max1 = 0;
